@@ -1,0 +1,65 @@
+<%= error_messages_for "job" %>
+
+<script type="text/javascript">
+function switchIt(menu, id) {
+	//safe way to find an element with a specified id
+	if (document.getElementById) { // DOM3 = IE5, NS6
+		field = document.getElementById(id)
+	} else {
+		if (document.layers) { // Netscape 4
+			field = document.id
+		} else { // IE 4
+			field = document.all.id
+		}
+	}
+	
+	if (menu.value == 'Other') {
+		field.value    = '';
+		field.disabled = false;
+		field.focus();
+	} else {
+		field.disabled = true;
+		field.value    = '';
+	}
+}
+</script>
+
+<dl>
+	<dt><label for="job_company">Company</label></dt>
+	<dd><%= text_field "job", "company" %></dd>
+
+	<dt><label for="job_on_site">On site</label></dt>
+	<dd><%= select "job", "on_site", Job::ON_SITE_CHOICES %></dd>
+
+	<dt><label for="job_terms">Terms</label></dt>
+	<dd><%= select "job", "terms", Job::TERMS_CHOICES %></dd>
+
+	<dt><label for="job_country">Country</label></dt>
+	<dd><%= country_select "job", "country", ["United States"] %></dd>
+
+	<dt><label for="job_state">State</label></dt>
+	<dd><%= select "job", "state", Job::STATE_CHOICES, { },
+	               "onchange" => "switchIt(this, 'other_state')" %> or
+	    <%= text_field_tag "other_state", nil, "disabled" => "disabled" %></dd>
+
+	<dt><label for="job_city">City</label></dt>
+	<dd><%= text_field "job", "city" %></dd>
+
+	<dt><label for="job_pay">Pay</label></dt>
+	<dd><%= text_field "job", "pay" %></dd>
+
+	<dt><label for="job_hours">Hours</label></dt>
+	<dd><%= text_field "job", "hours" %></dd>
+
+	<dt><label for="job_description">Description</label></dt>
+	<dd><%= text_area "job", "description" %></dd>
+
+	<dt><label for="job_required_skills">Required skills</label></dt>
+	<dd><%= text_area "job", "required_skills" %></dd>
+
+	<dt><label for="job_desired_skills">Desired skills</label></dt>
+	<dd><%= text_area "job", "desired_skills" %></dd>
+
+	<dt><label for="job_how_to_apply">How to apply</label></dt>
+	<dd><%= text_area "job", "how_to_apply" %></dd>
+</dl>

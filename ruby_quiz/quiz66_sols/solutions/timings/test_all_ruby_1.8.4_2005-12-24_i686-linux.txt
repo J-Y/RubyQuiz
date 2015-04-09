@@ -1,0 +1,159 @@
+### TESTING: horndude_generator.so
+Loaded suite tests
+Started
+...EE
+Finished in 30.657187 seconds.
+
+  1) Error:
+test_endless(TC_TGenerator):
+RuntimeError: Endless iterators unsupported
+    tests.rb:153:in `test_endless'
+    tests.rb:120:in `test_endless'
+
+  2) Error:
+test_realtime(TC_TGenerator):
+NoMethodError: undefined method `entries' for #<TC_TGenerator::C:0xb7ed80d4>
+    tests.rb:176:in `initialize'
+    tests.rb:176:in `test_realtime'
+    tests.rb:174:in `test_realtime'
+
+5 tests, 54 assertions, 0 failures, 2 errors
+
+
+
+
+### TESTING: davelee_generator.rb
+Loaded suite tests
+Started
+....E
+Finished in 1.075006 seconds.
+
+  1) Error:
+test_realtime(TC_TGenerator):
+NoMethodError: undefined method `size' for nil:NilClass
+    ./davelee_generator.rb:82:in `spent?'
+    ./davelee_generator.rb:32:in `current'
+    ./davelee_generator.rb:55:in `next'
+    tests.rb:179:in `test_realtime'
+    tests.rb:177:in `test_realtime'
+    tests.rb:174:in `test_realtime'
+
+5 tests, 1557 assertions, 0 failures, 1 errors
+
+
+
+
+### TESTING: jesse_yoon_generator.rb
+Loaded suite tests
+Started
+....F
+Finished in 1.081433 seconds.
+
+  1) Failure:
+test_realtime(TC_TGenerator)
+    [tests.rb:179:in `test_realtime'
+     tests.rb:177:in `test_realtime'
+     tests.rb:174:in `test_realtime']:
+<0> expected but was
+<nil>.
+
+5 tests, 1558 assertions, 1 failures, 0 errors
+
+
+
+
+
+### TESTING: jfugal_faster_generator.rb
+Loaded suite tests
+Started
+.....
+Finished in 1.063294 seconds.
+
+5 tests, 1560 assertions, 0 failures, 0 errors
+
+
+
+
+
+### TESTING: christoffer_lerno_generator.rb
+Loaded suite tests
+Started
+...E./cristoffer_lerno_generator.rb:5: warning: default `to_a' will be obsolete
+F
+Finished in 30.560389 seconds.
+
+  1) Error:
+test_endless(TC_TGenerator):
+RuntimeError: Endless iterators unsupported
+    tests.rb:153:in `test_endless'
+    tests.rb:120:in `test_endless'
+
+  2) Failure:
+test_realtime(TC_TGenerator)
+    [tests.rb:179:in `test_realtime'
+     tests.rb:177:in `test_realtime'
+     tests.rb:174:in `test_realtime']:
+<0> expected but was
+<#<TC_TGenerator::C:0xb7ebef80 @value=0>>.
+
+5 tests, 55 assertions, 1 failures, 1 errors
+
+
+
+
+
+### TESTING: rbamf_fgenerator.rb
+Loaded suite tests
+Started
+.....
+Finished in 1.059739 seconds.
+
+5 tests, 1560 assertions, 0 failures, 0 errors
+
+
+
+
+
+### TESTING: jeg_generator.rb
+Loaded suite tests
+Started
+...E./jeg_generator.rb:10: warning: default `to_a' will be obsolete
+F
+Finished in 30.538217 seconds.
+
+  1) Error:
+test_endless(TC_TGenerator):
+RuntimeError: Endless iterators unsupported
+    tests.rb:153:in `test_endless'
+    tests.rb:120:in `test_endless'
+
+  2) Failure:
+test_realtime(TC_TGenerator)
+    [tests.rb:179:in `test_realtime'
+     tests.rb:177:in `test_realtime'
+     tests.rb:174:in `test_realtime']:
+<0> expected but was
+<#<TC_TGenerator::C:0xb7f86f80 @value=0>>.
+
+5 tests, 55 assertions, 1 failures, 1 errors
+
+
+
+
+
+### TESTING: caleb_clausen_generator.rb
+Loaded suite tests
+Started
+....F
+Finished in 2.093395 seconds.
+
+  1) Failure:
+test_realtime(TC_TGenerator)
+    [tests.rb:179:in `test_realtime'
+     tests.rb:177:in `test_realtime'
+     tests.rb:174:in `test_realtime']:
+<0> expected but was
+<nil>.
+
+5 tests, 1818 assertions, 1 failures, 0 errors
+

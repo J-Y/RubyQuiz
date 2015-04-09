@@ -1,0 +1,89 @@
+Refactoring Name:  Extract Method
+
+Original Code (taken from the checkr project):
+  def process_args(exp)
+    @saw_asgn = true
+    args = []
+    exp.length.times do
+      element = exp.shift
+      if element.kind_of? Array
+        args << process(element)
+      else
+        args << init_var(element)
+      end
+    end
+    s(:args,
+      *args)
+  end
+
+
+  def process_block(exp)
+    unless exp[1] != [:nil]
+      @errors << "no-op in block"
+    end
+    args = []
+    exp.length.times do
+      element = exp.shift
+      if element.kind_of? Array
+        args << process(element)
+      else
+        args << init_var(element)
+      end
+    end
+    s(:block,
+      *args)
+  end
+
+Explanation and mechanics:
+
+process_block was written by creating the new functionality (the
+unless block at the beginning) and copying the args building code
+from process_args.  This created a block of duplicate code that
+I didn't want to maintain, so I extracted a method like this:
+
+  I created a new method, build_sexp
+  I moved the code from process_block into it
+  I replaced the code in process_block with a call to build_sexp
+  I reran my test suite to verify that nothing broke[1]
+  I replaced the original code in process_args with a call to build_sexp
+  I reran my test suite to verify that nothing broke
+
+New Code (ordered by method name):
+  def build_sexp(exp)
+    args = []
+    exp.length.times do
+      element = exp.shift
+      if element.kind_of? Array
+        args << process(element)
+      else
+        args << init_var(element)
+      end
+    end
+    args
+  end
+
+  def process_args(exp)
+    @saw_asgn = true
+    args = build_sexp(exp)
+    s(:args,
+      *args)
+  end
+
+  def process_block(exp)
+    unless exp[1] != [:nil]
+      @errors << "no-op in block"
+    end
+
+    args = build_sexp(exp)
+    s(:block,
+      *args)
+  end
+
+This actually lead to a couple of other refactorings.  We didn't like
+the fact that build_sexp did two things (emptied the original array,
+and processed each member of the new array), so we extracted another
+method.  Then we realized that our two new methods were poorly named,
+so we performed Rename Method on both of them.  we're not sure we'll
+use the code we ended up with, as it still hides some functionality
+that we might want to keep explicit, but it was a good exercise to
+go through.

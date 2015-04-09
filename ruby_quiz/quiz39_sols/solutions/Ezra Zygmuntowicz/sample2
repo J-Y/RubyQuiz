@@ -1,0 +1,14 @@
+#!/usr/local/bin/ruby
+
+GC.disable
+
+members, limit, samples = ARGV[0].to_i, ARGV[1].to_i, {}
+
+loop do
+  break unless samples.length < members
+  samples[rand(limit)] = 1
+end
+
+result = samples.keys.sort
+
+puts result

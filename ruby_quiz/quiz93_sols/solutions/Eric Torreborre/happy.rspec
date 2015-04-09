@@ -1,0 +1,33 @@
+require "spec"
+require "happy_numbers"
+
+context "A happy number method" do 
+  specify "should say 1 is a happy number" do
+    1.happy_number?.should_be true
+  end
+
+  specify "should say 2 and 3 are not happy numbers" do
+    [2, 3].each{|n| n.happy_number?.should_be false}
+  end
+
+  specify "should say 7, 10 are happy numbers" do
+    [7, 10].each{|n| n.happy_number?.should_be true}
+  end
+
+end
+
+context "A find happy numbers function" do 
+  specify "should find the correct happy numbers from 1 to 10" do
+    find_happy_numbers(10).should_equal([1, 7, 10])
+  end
+end
+
+context "A find happiest number function" do 
+  specify "should find the happiest number from 1 to 10" do
+    find_happiest_number(10).should_equal(7)
+  end
+
+  specify "should find the happiest number from 1 to 1000000" do
+    find_happiest_number(1000000).should_equal(78999)
+  end
+end

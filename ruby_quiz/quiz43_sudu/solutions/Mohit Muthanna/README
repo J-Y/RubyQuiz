@@ -1,0 +1,54 @@
+The Ruby Sudoku Solver
+Mohit Muthanna Cheppudira <mohit@muthanna.com>
+
+Wikipedia definition:
+
+Sudoku, Japanese,  sometimes spelled Su Doku,
+is a placement puzzle, also known as Number Place in the
+United States. The aim of the puzzle is to enter a numeral
+from 1 through 9 in each cell of a grid, most frequently a
+9×9 grid made up of 3×3 subgrids (called "regions"), starting
+with various numerals given in some cells (the "givens"). Each
+row, column and region must contain only one instance of each
+numeral.
+
+To Learn more about Sudoku, visit the great Wikipedia.
+
+This implementation of the Sudoku solver uses an educated brute
+force approach. By educated brute-force, I mean the solver:
+
+* Narrows down options available in the empty places
+* Fills in cells that have only one option
+* For cells that have more than one option:
+  * Try each one, then recurse (Narrow down, fill-in, etc.).
+
+
+Usage:
+
+Make sure you have Ruby installed and in your path.
+
+$ sudoku.rb filename
+
+Where filename refers to a file with a Sudoku problem board
+in the CSV format.
+
+Sample file:
+
+#----------board1.csv-----------
+# Sudoku board from sudoku.com
+#
+# August 2005 contest puzzle
+
+0,0,0,0,2,3,4,0,0
+0,6,3,0,9,8,0,0,0
+4,0,0,5,0,0,0,0,0
+0,2,5,0,8,0,0,7,3
+0,1,0,0,0,0,0,5,0
+6,4,0,0,5,0,1,9,0
+0,0,0,0,0,5,0,0,8
+0,0,0,9,7,0,3,6,0
+0,0,6,8,3,0,0,0,0
+#-------------------------------
+
+Blank lines, and lines beginning with the hash character (#) are
+ignored. Zeros represent blank cells.

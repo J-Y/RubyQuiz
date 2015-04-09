@@ -1,0 +1,33 @@
+CHIP-8 Pseudo Assembler 
+   - Quick Reference
+
+  jmp  addr     # Jump at addr
+  call addr     # Call code at addr
+  sec  vx, kk   # Skip if equal with constant
+  snc  vx, kk   # Skip if NOT equal with constant
+  seq  vx, vy   # Skip if equal
+  sne  vx, vy   # Skip if NOT equal with constant
+  mov  vx, kk   # Set register
+  inc  vx, kk   # Increment register
+  movr vx, vy   # Copy register
+  _or  vx, vy   # Copy register /w AND
+  _and vx, vy   # Copy register w/ OR
+  _xor vx, vy   # Copy register w/ XOR
+  sum  vx, vy   # Sum up registers
+  sub  vx, vy   # Substract registers
+  shr  vx, vy   # Substract registers
+  subr vx, vy   # Substract registers, reversed
+  shl  vx, vy   # Substract registers
+  jmp0 nnn      # Jump to nnn + V0
+  rndc vx, kk   # Random AND constant
+
+At the end of the program you can tell the compiler to either dump the
+opcodes to the screen, or 'compile' it into a binary file. Or both.
+Before that however you must use:
+
+  ret           # output '0000' the exit opcode
+
+and only after that you can use:
+  dump          # Dump the opcodes on screen
+  store         # Dump the opcodes into a binary file
+

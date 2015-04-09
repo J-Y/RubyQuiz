@@ -1,0 +1,84 @@
+galaxy {
+  region("Federation Space") {
+    sector(1) {
+      planet "Earth"
+      station "Alpha"
+      neighbors 2, 3, 4
+    }
+
+    sector(2) {
+      neighbors 1, 3, 4, 8
+    }
+
+    sector(3) {
+      neighbors 1, 2, 5, 12
+    }
+
+    sector(4) {
+      neighbors 1, 2, 3, 16
+    }
+  }
+
+  region("Klingon Space") {
+    sector(5) {
+      planet "Kronos"
+      station "Beta"
+      neighbors 6, 7, 8
+    }
+
+    sector(6) {
+      neighbors 5, 7, 8, 15
+    }
+
+    sector(7) {
+      station "Gamma"
+      neighbors 5, 6, 8, 10
+    }
+
+    sector(8) {
+      neighbors 2, 5, 6, 7
+    }
+  }
+
+  region("Romulan Space") {
+    sector(9) {
+      planet "Romulus"
+      planet "Remus"
+      neighbors 10, 11, 12
+    }
+
+    sector(10) {
+      neighbors 7, 9, 11, 12
+    }
+
+    sector(11) {
+      station "Delta"
+      neighbors 9, 10, 12, 14
+    }
+
+    sector(12) {
+      neighbors 3, 9, 10, 11
+    }
+  }
+
+  region("Ferengi Space") {
+    sector(13) {
+      planet "Ferenginar"
+      station "Epsilon"
+      neighbors 14, 15, 16
+    }
+
+    sector(14) {
+      neighbors 11, 13, 15, 16
+    }
+
+    sector(15) {
+      station "Zeta"
+      neighbors 6, 13, 14, 16
+    }
+
+    sector(16) {
+      neighbors 4, 13, 14, 15
+    }
+  }
+}

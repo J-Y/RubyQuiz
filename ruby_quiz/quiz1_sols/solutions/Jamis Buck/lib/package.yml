@@ -1,0 +1,106 @@
+---
+id: solitaire.cipher
+description: >-
+  The services needed to implement a command-line version of the solitaire
+  cipher. This is in fulfillment of Ruby Quiz 1: "The Solitaire Cipher".
+
+service-points:
+
+  CLI:
+    description: >-
+      The command-line interface required by the quiz. Ideally, this would
+      be put in a package of its own, leaving the more general-purpose
+      services in this package, but for the quiz...let's not go TOO overboard
+      on this...
+    model: singleton
+    implementor:
+      factory: copland.BuilderFactory
+      class: cli/CLI
+      properties:
+        cipher: !!service SolitaireCipher
+        options: !!service Options
+
+  KeyingAlgorithms:
+    description: >-
+      This service helps provide keying algorithms. It is backed by the
+      configuration point of the same name, but provides a little more "extra"
+      functionality than an unadorned configuration point.
+    implementor:
+      factory: copland.BuilderFactory
+      class: cipher/KeyingAlgorithms
+      properties:
+        algorithms: !!configuration KeyingAlgorithms
+        registry: !!service copland.Registry
+
+  KeyStream:
+    description: >-
+      Represents a keystream. It may be used as an iterator to obtain
+      subsequent letters from the keystream.
+    model: prototype
+    implementor:
+      factory: copland.BuilderFactory
+      class: cipher/KeyStream
+      properties:
+        deck: !!service Deck
+
+  SolitaireCipher:
+    description: >-
+      The implementation of the solitaire cipher. This handles both encryption
+      and decryption.
+    model: prototype
+    implementor:
+      factory: copland.BuilderFactory
+      class: cipher/SolitaireCipher
+      parameters:
+        - !!service UnkeyedAlgorithm
+      properties:
+        algorithms: !!service KeyingAlgorithms
+        stream: !!service KeyStream
+
+  UnkeyedAlgorithm:
+    description: >-
+      The default keying algorithm, which is really no algorithm at all. It
+      does nothing to the deck, leaving it in its unkeyed form.
+    implementor: cipher/UnkeyedAlgorithm
+
+  BackwardsAlgorithm:
+    description: >-
+      Keys the deck by ordering the cards in reverse unkeyed order.
+    implementor: cipher/BackwardsAlgorithm
+
+  ShuffleAlgorithm:
+    description: >-
+      Just for demonstration, and certainly not required by the quiz. This
+      keying algorithm just shuffles the deck, using a specific number to
+      seed the random number generator, for repeatability.
+    implementor:
+      factory: copland.BuilderFactory
+      class: cipher/ShuffleAlgorithm
+      properties:
+        options: !!service Options
+
+  Options:
+    description: >-
+      Represents the options given to the application, either via the command
+      line or some other way.
+    implementor: cipher/Options
+
+  Deck:
+    model: prototype-deferred
+    description: Implements a deck of cards for the solitaire cipher.
+    implementor: cipher/Deck
+
+configuration-points:
+
+  KeyingAlgorithms:
+    type: map
+    description: >-
+      The map of available algorithms to use when keying a deck. Each algorithm
+      that is added must be the (fully-qualified) name of a service.
+
+contributions:
+
+  KeyingAlgorithms:
+    unkeyed: solitaire.cipher.UnkeyedAlgorithm
+    shuffle: solitaire.cipher.ShuffleAlgorithm
+    reverse: solitaire.cipher.BackwardsAlgorithm

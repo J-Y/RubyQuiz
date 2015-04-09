@@ -1,0 +1,13 @@
+#!/usr/local/bin/ruby
+
+#  Moving window Sample
+#  Adam Sanderson
+max = ARGV.pop.to_i
+samples = ARGV.pop.to_i
+
+step = max / samples
+min = -step
+
+samples.times{
+    puts( (min += step) + rand(step) )
+}

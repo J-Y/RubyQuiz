@@ -1,0 +1,36 @@
+#!/usr/bin/ruby -w
+
+STDOUT.sync = false
+GC.disable
+
+num,ceil = ARGV.map { |s| s.to_i }
+keep = {}
+warn "init keeplist"
+
+# just dumping the values in and then checking the length
+# of the hash is *much* faster than checking if there already
+# is a value in there.
+
+while keep.length < num
+    keep[rand(ceil)] = true
+end
+
+warn "converting to array"
+
+keep2 = keep.keys.sort
+
+# note that, even with GC disabled, it's still faster to
+# convert integers to strings before printing than to rely on
+# the automatic conversion
+
+warn "converting to strings"
+keep3 = []
+while i = keep2.shift
+    keep3 << i.to_s
+end
+
+warn "printing"
+
+puts keep3
+
+warn "done"

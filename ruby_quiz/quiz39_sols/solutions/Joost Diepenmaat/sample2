@@ -1,0 +1,234 @@
+#!/usr/bin/ruby -w
+
+STDOUT.sync = false
+GC.disable
+
+num,ceil = ARGV.map { |s| s.to_i }
+keep = {}
+warn "init keeplist"
+
+# heavily unrolled loops :-)
+# shaves of quite a bit of time
+
+smpl = num - 100
+while keep.length <= smpl
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+    keep[rand(ceil)] = true
+end
+
+while keep.length < num
+    keep[rand(ceil)] = true
+end
+
+warn "converting to array"
+
+keep2 = keep.keys.sort
+$,="\n"
+e =""
+
+warn "writing" 
+while keep2.length >= 100
+    STDOUT.write [ 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s, 
+        keep2.shift.to_s,
+        e];
+end
+
+puts keep2 unless keep2.empty?;
+exit;

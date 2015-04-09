@@ -1,0 +1,37 @@
+% Print ``bingo'' sheets.
+
+\font\mainfont=cmbx14
+\mainfont
+
+\newbox\strutbox
+\setbox\strutbox=\hbox{\vrule height18.5pt depth13.5pt width0pt}
+\def\strut{\relax\ifmmode\copy\strutbox\else\unhcopy\strutbox\fi}
+
+\newdimen\onedigitwidth
+\newdimen\digitwidth
+\setbox0=\hbox{\mainfont0}
+\onedigitwidth=\wd0
+\setbox0=\hbox{\mainfont00}
+\digitwidth=\wd0
+
+\catcode`?=\active
+\def?{\hbox to \onedigitwidth{}}
+\def\X{\hbox to \digitwidth{\hfil$\bigcirc$\hfil}}
+
+\begingroup
+
+\tabskip=0pt
+\offinterlineskip
+\def\nl{\cr\noalign{\hrule}}
+\def\newsheet{\cr\noalign{\hrule\vskip1cm\hrule}}
+\halign{\strut#& \vrule#\tabskip=0.50em&
+ \hfil#\hfil& \vrule#&\hfil#\hfil& \vrule#&\hfil#\hfil& \vrule#&
+ \hfil#\hfil& \vrule#&\hfil#\hfil& \vrule#&\hfil#\hfil& \vrule#&
+ \hfil#\hfil& \vrule#&\hfil#\hfil& \vrule#&\hfil#\hfil& \vrule#\tabskip=0pt\nl
+\input entries.tex
+\cr}
+
+\endgroup
+
+\bye
+

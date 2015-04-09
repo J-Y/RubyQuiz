@@ -1,0 +1,48 @@
+mov  :V1, 0x10
+mov  :V2, 0x13
+mov  :V3, 0x31
+mov  :V4, 0x21
+mov  :V5, 0x22
+mov  :V6, 0x25
+sec  :V2, 7
+snc  :V8, 0x25
+seq  :V2, :V7
+sne  :VA, :VD
+_and :V4, :V2
+inc  :V4, 0x11
+movr :V2, :V4
+mov  :V4, 0x33
+_or  :V1, :V4
+rndc :V9, 0x71
+sec  :V2, 7
+seq  :V2, :V7
+shl  :V8, :V0
+shr  :V9, :V0
+snc  :V8, 0x25
+sne  :VA, :VD
+subr :V2, :V1
+shr  :V9, :V0
+shl  :V8, :V0
+subr :V2, :V1
+inc  :V4, 0x11
+sub  :V2, :V3
+sum  :V2, :V1
+_xor :V5, :V5
+mov  :V4, 0x33
+inc  :V4, 0x11
+rndc :V9, 0x71
+movr :V2, :V4
+_or  :V1, :V4
+_and :V4, :V2
+_xor :V5, :V5
+sum  :V2, :V1
+sub  :V2, :V3
+shr  :V9, :V0
+shl  :V8, :V0
+subr :V2, :V1
+inc  :V4, 0x11
+rndc :V9, 0x71
+ret
+
+dump
+store

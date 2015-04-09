@@ -1,0 +1,1 @@
+rdoc --title 'ruby-csp documentation' -main ai/csp.rb ai/csp

@@ -1,0 +1,40 @@
+# Ruby extension implementing a priority queue
+
+## Description
+This is a fibonacy heap priority queue implementation. That means
+
+insert:                      O(1)
+decrease_priority: Amortized O(1)
+delete_min:        Amortized O(log n)
+
+## Legal stuff
+(c) 2005 Brian Schröder
+
+Please submit bugreports to priority_queue@brian-schroeder.de
+
+This extension is under the same license as ruby.
+
+Do not hold me reliable for anything that happens to you, your programs or
+anything else because of this extension. It worked for me, but there is no
+guarantee it will work for you.
+
+## Installation
+$ ruby extconf.rb
+$ make
+
+put priority_queue.so somewhere where your program can find it. E.g. /usr/local/lib/ruby/1.8/priority_queue.so
+
+## Usage
+
+    require 'priority_queue'
+
+    q = PriorityQueue.new
+    q.push "node1", 0 
+    q.puts "node2", 1
+
+    q.min #=> "node1"
+
+    q.decrease_priority("node2", -1)
+
+    q.pop_min #=> "node2"
+    q.min     #=> "node1"

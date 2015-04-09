@@ -1,0 +1,28 @@
+<h2><%= h @job.company %></h2>
+
+<dl>
+	<dt>Posted:</dt>
+	<dd><%= @job.created_on.strftime "%B %d, %Y" %></dd>
+
+	<dt>Location:</dt>
+	<dd><%= h @job.location %></dd>
+
+<% %w{on_site terms pay hours}.each do |col| -%>
+	<dt><%= col.tr("_", " ").capitalize %>:</dt>
+	<dd><%= h @job.send(col) %></dd>
+<% end -%>
+</dl>
+
+<% %w{description required_skills desired_skills how_to_apply}.each do |col| -%>
+<% next unless @job.send(col) and not @job.send(col).empty? -%>
+<h3><%= col.tr("_", " ").capitalize %>:</h3>
+
+<%= sanitize(textilize(@job.send(col))) %>
+<% end -%>
+
+<% if @person and @person.id == @job.person.id -%>
+	<%= link_to "Edit", :action => "edit", :id => @job %> |
+	<%= link_to "Delete", {:action => "destroy", :id => @job},
+                          :confirm => "Are you sure?" %> |
+<% end -%>
+<%= link_to "Back", :action => "list" %>

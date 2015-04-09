@@ -1,0 +1,9 @@
+---
+&verily
+lemurs:
+  unite: *verily
+  beneath:
+    - patagonian
+    - bread
+    - products
+thusly: [1, 2, 3, 4]

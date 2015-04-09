@@ -1,0 +1,32 @@
+#!/usr/bin/env ruby
+
+num_samples = ARGV.shift.to_i
+upper_bound = ARGV.shift.to_i
+
+uniq = {}
+data = []
+
+warn "calc..."
+
+num_samples.times do
+  r = rand(upper_bound)
+  if uniq[r]
+    num_samples.times do
+      r = 0 if (r += 1) >= upper_bound
+      break if uniq[r].nil?
+    end
+  end
+  data << uniq[r] = r
+end
+
+warn "sort..."
+data.sort!
+
+warn "stringify..."
+data.map! {|n| n.to_s }
+
+warn "join..."
+res = data.join("\n")
+
+warn "output..."
+puts res

@@ -1,0 +1,54 @@
+### Construction ###
+
+Rehearsal -------------------------------------------------------------
+New Thread Generator        0.180000   0.010000   0.190000 (  0.186852)
+Old callcc Generator        0.210000   0.060000   0.270000 (  0.267589)
+RossBamfordGenerator        0.190000   0.010000   0.200000 (  0.200867)
+JesseYoonGenerator          1.250000   0.040000   1.290000 (  1.288486)
+JacobFugalGenerator         0.220000   0.000000   0.220000 (  0.228049)
+JEGIIGenerator              0.010000   0.000000   0.010000 (  0.003091)
+DaveLeeGenerator            0.000000   0.000000   0.000000 (  0.004096)
+CristofferLernoGenerator    0.000000   0.000000   0.000000 (  0.002906)
+CalebClausenSyncGenerator   0.240000   0.000000   0.240000 (  0.234202)
+CalebClausenGenerator       3.320000   0.040000   3.360000 (  3.370295)
+---------------------------------------------------- total: 5.780000sec
+
+                                user     system      total        real
+New Thread Generator        0.210000   0.000000   0.210000 (  0.205367)
+Old callcc Generator        0.070000   0.000000   0.070000 (  0.071999)
+RossBamfordGenerator        0.210000   0.000000   0.210000 (  0.211517)
+JesseYoonGenerator          0.260000   0.000000   0.260000 (  0.271282)
+JacobFugalGenerator         0.010000   0.000000   0.010000 (  0.011128)
+JEGIIGenerator              0.000000   0.000000   0.000000 (  0.003410)
+DaveLeeGenerator            0.000000   0.000000   0.000000 (  0.003958)
+CristofferLernoGenerator    0.000000   0.000000   0.000000 (  0.002700)
+CalebClausenSyncGenerator   0.220000   0.000000   0.220000 (  0.230006)
+CalebClausenGenerator       2.970000   0.030000   3.000000 (  3.008657)
+
+### next() ###
+
+Rehearsal -------------------------------------------------------------
+New Thread Generator        0.370000   0.000000   0.370000 (  0.432432)
+Old callcc Generator        1.310000   0.260000   1.570000 (  1.579197)
+RossBamfordGenerator        0.350000   0.010000   0.360000 (  0.365862)
+JesseYoonGenerator          0.950000   0.010000   0.960000 (  0.968764)
+JacobFugalGenerator         0.450000   0.000000   0.450000 (  0.464338)
+JEGIIGenerator              0.040000   0.000000   0.040000 (  0.041824)
+DaveLeeGenerator            0.060000   0.000000   0.060000 (  0.050352)
+CristofferLernoGenerator    0.040000   0.000000   0.040000 (  0.052046)
+CalebClausenSyncGenerator   0.530000   0.000000   0.530000 (  0.532814)
+CalebClausenGenerator       0.400000   0.000000   0.400000 (  0.400555)
+---------------------------------------------------- total: 4.780000sec
+
+                                user     system      total        real
+New Thread Generator        0.370000   0.010000   0.380000 (  0.371918)
+Old callcc Generator        1.430000   0.020000   1.450000 (  1.459838)
+RossBamfordGenerator        0.350000   0.010000   0.360000 (  0.353515)
+JesseYoonGenerator          0.950000   0.000000   0.950000 (  0.958286)
+JacobFugalGenerator         0.450000   0.010000   0.460000 (  0.452084)
+JEGIIGenerator              0.040000   0.000000   0.040000 (  0.042236)
+DaveLeeGenerator            0.050000   0.000000   0.050000 (  0.050518)
+CristofferLernoGenerator    0.050000   0.000000   0.050000 (  0.050332)
+CalebClausenSyncGenerator   0.530000   0.000000   0.530000 (  0.528834)
+CalebClausenGenerator       0.380000   0.000000   0.380000 (  0.381354)
+

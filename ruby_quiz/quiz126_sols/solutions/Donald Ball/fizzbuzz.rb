@@ -1,0 +1,1 @@
+(1..100).map{|n|[[3,'fizz'],[5,'buzz']].inject(n){|s,a|s.is_a?(Fixnum)?s=a[1]:s+=a[1] if n%a[0]==0;s}}

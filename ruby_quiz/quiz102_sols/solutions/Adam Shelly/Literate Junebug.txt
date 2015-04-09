@@ -1,0 +1,173 @@
+So I enabled literate programming in "Junebug":www.junebugwiki.com, a
+small wiki based on
+"Camping":http://code.whytheluckystiff.net/camping/wiki.
+
+Redcloth provides all the markup capability, and any code on a page
+can be executed in place, or generated to a plain .rb source file.
+
+The modifications were minimal and are described here as a literate  
+program:
+
+First, add 2 buttons to the normal page view.  In module
+Junebug::Views, modify the method #show.  Existing code:
+
+  module Junebug::Views
+    def show
+      #...
+         _markup @version.body
+
++Add+ These two lines:
+
+        _button 'raw source', R(Raw, @page.title, @version.version),
+{:style=>'float: left; margin: 5px 0 0 5px;'}
+        _button 'exec', R(Exec, @page.title, @version.version),
+{:style=>'float: right; margin: 5px 0 0 5px;'} if logged_in?
+      #...
+    end
+  end
+
+To implement exec, the next step is a controller.  The controller
+fetches the page data, sets the appropriate version, and calls the
+render function.  It handles older versions of the page, allowing you
+to go back and run prior versions of the code.
+
+  module Junebug::Controllers
+    class Exec < R '/([\w ]+)/exec', '/([\w ]+)/(\d+)/exec'
+      def get page_name, version = nil
+        redirect("#{Junebug.config['url']}/login") and return unless  
+logged_in?
+        @page_title = "Exec #{page_name}: Results"
+        @page = Page.find_by_title(page_name)
+        @version = (version.nil? or version == @page.version.to_s) ?
+@page : @page.versions.find_by_version(version)
+        render :exec
+    end
+  end
+
+The raw source button links to a controller for the raw view.  It
+starts out the same, except there is no redirect to the login page,
+since there is no login required.
+
+    class Raw < R '/([\w ]+)\raw', '/([\w ]+)/(\d+)/raw'
+      def get page_name, version = nil
+        @page_title = "#{page_name}.rb"
+        @page = Page.find_by_title(page_name)
+        @version = (version.nil? or version == @page.version.to_s) ?
+@page : @page.versions.find_by_version(version)
+
+But the end is different - instead of calling render, which would wrap
+the results in HTML tags, it just returns the raw code directly.
+
+	@headers['Content-Type'] =  "text/plain"
+	get_code(@version.body)
+      end
+    end
+  end  #module Junebug::Controllers
+
+Next, the exec render function, back among the views:
+
+  module Junebug::Views
+    def exec
+      _header :show, @page.title
+      _body {
+        _markup @version.body
+        div.formbox {
+          form do
+            p {
+              label 'Execution Results'
+
+Here is the only interesting line.  'execute' is a new helper function
+that will extract the code blocks from the markup, and execute the
+code.
+
+              textarea
+_execute(get_code(@version.body,[@page.title])), :rows => 10, :cols =>
+80
+            }
+            br
+          end
+          br :clear=>'all'
+        }
+        _button 'edit', R(Edit, @page.title, @version.version),
+{:style=>'float: right; margin: 5px 0 0 5px;'} if logged_in? &&
+(@version.version == @page.version && (! @page.readonly || is_admin?))
+        _button 'view', R(Show, @page.title, @version.version),
+{:style=>'float: right; margin: 5px 0 0 5px;'}
+        br
+      }
+      _footer {
+        text '<b>[readonly]</b> ' if @page.readonly
+        span.actions {
+          text "Version #{@version.version} "
+          text "(current) " if @version.version == @page.version
+          a 'åÇolder', :href => R(Exec, @page.title,
+@version.version-1) unless @version.version == 1
+          a 'neweråÈ', :href => R(Exec, @page.title,
+@version.version+1) unless @version.version == @page.version
+          a 'current', :href => R(Exec, @page.title) unless
+@version.version == @page.version
+          a 'versions', :href => R(Versions, @page.title)
+        }
+      }
+    end
+
+Here's the function that actually runs the code. It is a wrapper for
+the FreakyFreaky Sandbox, which should protect our system from
+evildoers.  _Note: This part is untested, since Sandbox does not
+currently compile on Windows.  For internal testing, the body can be
+replaced with "eval(code)"._
+
+    def _execute code
+      begin
+        Sandbox.safe.eval(code)
+      rescue Sandbox::Exception => show_ex
+      end
+    end
+  end   #module Junebug::Views
+
+The only thing left is one helper function to take the page source and
+extract anything in a code block.
+
+module Junebug::Helpers
+    def get_code html,found_list
+
+Here's the extractor. Instead of reparsing the page, let RedCloth do
+the work of identifying code:
+
+      html = RedCloth.new(source).to_html
+      code = html.scan(/$lt;code>.*?<\/code>/m).join("\n").gsub(/<\/? 
+code/,'')
+
+And here's a tricky bit.  If we find a require statement, first search
+the wiki for a page matching that name...
+
+      code.gsub!(/require\s*(["'])(.*?)\1/){|match|
+        name = $+
+        codepage = Junebug::Models::Page.find_by_title(name)
+        if !found_list.include?(name) and codepage
+
+and if we find it, replace the statement with the code from that page.
+This allows us to put our project over multiple wiki pages.  The
+found_list tracks the replacements, to prevent us from getting into
+require loops.  If there is no matching page, the require statement is
+left in place for ruby to handle normally.
+
+          get_code codepage.body, found_list<< name
+        end
+
+In a poor use of overloading, a nil found_list argument is a signal
+not to do the require expansion.  The raw view uses this -trick-
+feature.  The last step is to unescape any HTML in the code, so that
+Ruby gets '>' instead of =='&gt;'==
+
+      } if found_list
+      GGI.unescapeHTML code
+    end
+end
+
+And that's it.
+
+I ran into a few small issues with RedCloth, which might be a matter
+of getting the right settings.  My main problem was that some of the
+markup gets inserted before the code sections are identified, so
+various code symbols, like *'s and +'s are replaced by html tags.

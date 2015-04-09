@@ -1,0 +1,26 @@
+Sun Jan 29 18:51:15 CET 2006  Christian Neukirchen <chneukirchen@gmail.com>
+  tagged 0.1
+
+Sun Jan 29 18:50:58 CET 2006  Christian Neukirchen <chneukirchen@gmail.com>
+  * Add repository information
+
+Sun Jan 29 18:48:15 CET 2006  Christian Neukirchen <chneukirchen@gmail.com>
+  * Add sample.rb
+
+Sun Jan 29 18:21:44 CET 2006  Christian Neukirchen <chneukirchen@gmail.com>
+  * Import and integrate Rakefile
+
+Sun Jan 29 18:21:14 CET 2006  Christian Neukirchen <chneukirchen@gmail.com>
+  * Add documentation
+
+Sun Jan 29 18:20:42 CET 2006  Christian Neukirchen <chneukirchen@gmail.com>
+  * Small code cleanup
+
+Sat Jan 28 16:57:01 CET 2006  Christian Neukirchen <chneukirchen@gmail.com>
+  * Refactoring
+
+Sat Jan 28 16:25:06 CET 2006  Christian Neukirchen <chneukirchen@gmail.com>
+  * Rename to_xoxo to XOXO.dump, minor refactorings
+
+Sat Jan 28 16:10:37 CET 2006  Christian Neukirchen <chneukirchen@gmail.com>
+  * Initial import of xoxo.rb

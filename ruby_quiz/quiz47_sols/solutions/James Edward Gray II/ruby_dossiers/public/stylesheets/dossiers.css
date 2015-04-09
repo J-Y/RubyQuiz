@@ -1,0 +1,26 @@
+body {
+	margin:  0px;
+	
+	text-align:  center;
+	
+	background-color:  black;
+}
+#page {
+	margin:  0 auto;
+	padding:  3px 10px;
+	width:   750px;
+	
+	text-align:  left;
+
+	background-color:  white;
+}
+
+.message { color:  green; }
+
+dt { font-weight:  bold; }
+
+a, a:visited { color:  red; }
+a:hover {
+	color:             black;
+	background-color:  white;
+}

@@ -1,0 +1,1 @@
+require("open-uri") && puts((ARGV.size !=1) ? "Usage: #$0 <zip code>": ("The temperature in #$1 is #$2 degrees F." if %r|Weather</b> for <b>(.*?)</b>.*?(\d+)&deg;F|=~open("http://www.google.com/search?hl=en&q=temperature+#{ARGV[0]}"){|f|f.read}))

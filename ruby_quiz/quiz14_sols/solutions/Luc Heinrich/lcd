@@ -1,0 +1,99 @@
+#!/usr/local/bin/ruby -w
+
+require 'getoptlong'
+
+# ----------------------------------------------------------------------
+
+class Array
+
+    def deep_clone
+        Marshal::load(Marshal.dump(self))
+    end
+
+end
+
+# ----------------------------------------------------------------------
+
+class Digit
+
+    S = " "
+    H = "-"
+    V = "|"
+
+    @@segments =
+    [
+        [ [S,H,S], [V,S,V], [S,S,S], [V,S,V], [S,H,S] ], # 0
+        [ [S,S,S], [S,S,V], [S,S,S], [S,S,V], [S,S,S] ], # 1
+        [ [S,H,S], [S,S,V], [S,H,S], [V,S,S], [S,H,S] ], # 2
+        [ [S,H,S], [S,S,V], [S,H,S], [S,S,V], [S,H,S] ], # 3
+        [ [S,S,S], [V,S,V], [S,H,S], [S,S,V], [S,S,S] ], # 4
+        [ [S,H,S], [V,S,S], [S,H,S], [S,S,V], [S,H,S] ], # 5
+        [ [S,H,S], [V,S,S], [S,H,S], [V,S,V], [S,H,S] ], # 6
+        [ [S,H,S], [S,S,V], [S,S,S], [S,S,V], [S,S,S] ], # 7
+        [ [S,H,S], [V,S,V], [S,H,S], [V,S,V], [S,H,S] ], # 8
+        [ [S,H,S], [V,S,V], [S,H,S], [S,S,V], [S,H,S] ]  # 9
+    ]
+
+    attr_reader :height
+
+    def initialize( num, size )
+        @matrix = @@segments[ num ].deep_clone
+        @height = @matrix.size
+        self.scale_to_size( size ) if size > 1
+    end
+
+    def scale_to_size( size )
+        t = size - 1
+        @matrix.each { |l| t.times { l.insert(-2, S) } }
+        @matrix.each { |l| l.fill(H, l.index(H), size) if l.include?(H)
+}
+        t.times { @matrix.insert( 1, @matrix[1]) }
+        t.times { @matrix.insert(-2, @matrix[-2]) }
+        @height = @matrix.size
+    end
+
+    def display_line( line )
+        print @matrix[ line ], " "
+    end
+
+end
+
+# ----------------------------------------------------------------------
+
+class LCD
+
+    def initialize( num, size=1 )
+        @digits = Array.new
+        num.each_byte { |b| @digits << Digit.new( b.to_i - 48, size ) }
+    end
+
+    def display
+        for line in 0...@digits.first.height
+            @digits.each { |d| d.display_line( line ) }
+            puts
+        end
+    end
+
+end
+
+# ----------------------------------------------------------------------
+
+def print_usage( message=nil )
+    puts "Usage: lcd [-s size] digits"
+end
+
+# ----------------------------------------------------------------------
+
+print_usage & exit if ARGV.empty?
+
+size = 2
+opts = GetoptLong.new( ["--size", "-s", GetoptLong::REQUIRED_ARGUMENT] )
+opts.each { |opt, val| size = val.to_i if opt == "--size" }
+
+print_usage & exit if ARGV.empty?
+
+digits = ARGV[0].gsub( /[^0-9]/, "" )
+lcd = LCD.new( digits, size )
+lcd.display
+
+# ----------------------------------------------------------------------

@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>File: README</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href=".././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+  <div id="fileHeader">
+    <h1>README</h1>
+    <table class="header-table">
+    <tr class="top-aligned-row">
+      <td><strong>Path:</strong></td>
+      <td>README
+      </td>
+    </tr>
+    <tr class="top-aligned-row">
+      <td><strong>Last Update:</strong></td>
+      <td>Sun Jan 29 18:51:23 CET 2006</td>
+    </tr>
+    </table>
+  </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <h1>xoxo.rb, a <a href="../classes/XOXO.html">XOXO</a> parser and generator for Ruby</h1>
+<h2>What is xoxo.rb?</h2>
+<p>
+xoxo.rb is a Ruby library for loading and dumping data as <a
+href="http://microformats.org/wiki/xoxo">XOXO</a>, an simple, open outline
+format written in standard XHTML and suitable for embedding in (X)HTML,
+Atom, RSS, and arbitrary XML.
+</p>
+<p>
+xoxo.rb is a straight port of the functionality of <a
+href="http://microformats.org/wiki/xoxo-sample-code#Python">xoxo.py</a>,
+but with an API more similar to Marshal and YAML.
+</p>
+<h2>Current limitations</h2>
+<ul>
+<li>No special support for encodings other than UTF-8. Especially note that
+<tt>http-equiv</tt> headers are not respected.
+
+</li>
+<li><a href="../classes/XOXO.html#M000002">XOXO.dump</a> only can dump these
+Ruby core classes:
+
+<ul>
+<li>String
+
+</li>
+<li>Array
+
+</li>
+<li>Hashes that have string (<tt>to_s</tt>) keys
+
+</li>
+</ul>
+<p>
+Other objects will be flattened with <tt>to_s</tt>.
+</p>
+</li>
+</ul>
+<h2>Contact</h2>
+<p>
+Please mail bugs, suggestions and patches to &lt;<a
+href="mailto:chneukirchen@gmail.com">chneukirchen@gmail.com</a>&gt;.
+</p>
+<p>
+Darcs repository (&quot;darcs send&quot; is welcome for patches): <a
+href="http://chneukirchen.org/repos/xoxo-rb">chneukirchen.org/repos/xoxo-rb</a>
+</p>
+<h2>History</h2>
+<table>
+<tr><td valign="top">January 29, 2006:</td><td>First public release 0.1, written for the <a
+href="http://rubyquiz.com/quiz64.html">Ruby Quiz #64</a>.
+
+</td></tr>
+</table>
+<h2>Copyright</h2>
+<p>
+Copyright (C) 2006 Christian Neukirchen &lt;<a
+href="http://purl.org/net/chneukirchen">purl.org/net/chneukirchen</a>&gt;
+</p>
+<p>
+This work is licensed under the same terms as Ruby itself.
+</p>
+<p>
+This work is indirectly based on xoxo.py, written by Kevin Marks &lt;<a
+href="mailto:kmarks@technorati.com">kmarks@technorati.com</a>&gt;.
+</p>
+<p>
+Please mail bugs, feature requests or patches to the mail addresses found
+above or use <a href="irc://freenode.net/#ruby-lang">IRC</a> to contact the
+developer.
+</p>
+
+    </div>
+
+
+   </div>
+
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+
+
+
+      
+
+
+    <!-- if method_list -->
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

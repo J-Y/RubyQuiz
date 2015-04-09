@@ -1,0 +1,53 @@
+Definition
+==========
+
+While sleep(n) [n > 0] assures that the calling Thread sleeps for at least n seconds,
+unless awoken by #run, sleep(m) [m < 0] assures that the calling Thread will suffer from
+insomnia for at least -m seconds, unless resting with #stop or #sleep(n) [n > 0]
+
+As we know sleep(n) [n > 0] returns the time really slept, sleep(m) [m < 0] cannot easily do 
+such a thing as it returns immediately. But when we put ourselves out of insomnia with Thread#stop
+we can return the time we were in insomnia. Thread#stop will still return nil if the callin thread
+was not in insomnia.
+
+Implementation
+==============
+Instead of rewriting the scheduler I will try to give an implementation by using Thread
+priorities.
+A thread that calls sleep(m) [m < 0] will be assigned the highest priority of all threads. It also starts
+another thread, called supervisor with even higher priority. But the supervisor just sleeps for -m
+seconds before assigning the normal priority to the calling thread.
+
+The Thread class is in "insomnia" mode during this time span. As mentioned above there are only two
+ways to get out of this "insomnia" mode. By the timeout -m, or if the calling thread calls sleep(n)
+[n > 0] or stop.
+
+In order to do that we have to intercept all calls to Kernel#sleep and to methods
+adjusting a Thread's priority, which are:
+	* Thread#new
+	* Thread#fork
+	* Thread#priority=
+	* Thread#stop 
+to get out of insomnia ourselves.
+
+I will ignore Thread#new and Thread#fork assuming that they initialize a Thread with priority 0.
+
+Testing
+=======
+
+running test.rb with a parameter of >> 10**5 should give a first insight of how it works, depending
+on the speed of your machine.
+
+
+Shortcomings
+============
+* The naming is quite trivial and might conflict with subclasses of Thread.
+* The implementation is minimal, an insomnia Thread does not get back into insomnia mode after
+	a sleep(n) [n > 0] as one might assume. An insomnia thread cannot call sleep(m) [m < 0] again
+	as might be useful.
+* When calling sleep before synchronizing the Thread might be interrupted and thus the effect
+	of sleep(m) [m < 0] might not be immideate (as can be seen in test2.rb).
+*Synchronization is done with big guns and without optimization, the former because
+	I do not know ruby Threads well, the later because of clarity of code.
+	
+* And hopefully *you* tell me about the other ones ;).

@@ -1,0 +1,18 @@
+<html><head><title>Ruby Dossiers --
+                   <%= controller.controller_name.capitalize.pluralize %> --
+                   <%= controller.action_name.capitalize %></title>
+	<%= stylesheet_link_tag "scaffold" %>
+	<%= stylesheet_link_tag "dossiers" %>
+</head><body>
+
+<div id="page">
+	<h1>Ruby Dossiers</h1>
+
+	<% if flash["notice"] %>
+		<p class="message"><%= flash["notice"] %></p>
+	<% end %>
+
+	<%= @content_for_layout %>
+</div>
+
+</body></html>

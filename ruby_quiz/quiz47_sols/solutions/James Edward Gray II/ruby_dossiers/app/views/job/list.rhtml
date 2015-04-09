@@ -1,0 +1,25 @@
+<h2>Listing jobs</h2>
+
+<% if @jobs.nil? or @jobs.empty? -%>
+<p>No jobs listed, currently.  Check back soon.</p>
+<% else -%>
+<% @jobs.each do |job| -%>
+<dl>
+	<dt>Posted:</dt>
+	<dd><%= job.created_on.strftime "%B %d, %Y" %></dd>
+
+	<dt>Company:</dt>
+	<dd><%= link_to h(job.company), :action => :show, :id => job %> in
+	    <%= h job.location %></dd>
+
+	<dt>Description:</dt>
+	<dd><%= excerpt(job.description, job) %></dd>
+</dl>
+<% end -%>
+<% end -%>
+
+<%= pagination_links @job_pages -%>
+
+<br />
+
+<%= link_to "List your job", :action => "new" %>

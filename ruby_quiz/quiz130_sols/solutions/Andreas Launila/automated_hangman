@@ -1,0 +1,358 @@
+#!/usr/bin/env ruby
+# == Synopsis
+#
+# automated_hangman: plays a game of hangman with the word of your
+# choice
+#
+# == Usage
+#
+# automated_hangman [OPTION] ... WORD
+#
+# -h, --help:
+#    show help
+#
+# -d, --dictionary [dictionary location]:
+#    sets up the database to use the specified dictionary (defaults to
+#    /usr/share/dict/words), can take some time
+#
+# WORD: The word that the program should try to guess.
+
+
+require 'getoptlong'
+require 'rdoc/usage'
+require 'mysql'
+
+# Describes a game of hangman.
+class Hangman
+  LIVES = 6
+
+  # Creates a new game of hangman where word is the target word.
+  def initialize(word)
+    @guesses = []
+    @word_characters = word.chomp.downcase.split(//)
+  end
+
+  # Returns an array containing the incorrect guessed characters.
+  def incorrect_guesses
+    @guesses - @word_characters
+  end
+
+  # Guesses a specified character. Returns an array of indices (possibly
+  # empty) where the character was found.
+  def guess(char_guess)
+    @guesses << char_guess
+    indices = []
+    @word_characters.each_with_index do |character, index|
+      indices << index if character == char_guess
+    end
+    return indices
+  end
+
+  # Returns a string representation of the current progress.
+  def to_s
+    hidden_characters = @word_characters - @guesses
+    return @word_characters.join(' ') if hidden_characters.empty?
+    @word_characters.join(' ').gsub(
+      /[#{hidden_characters.uniq.join}]/, '_')
+  end
+
+  # Checks whether the player has won.
+  def won?
+    (@word_characters - @guesses).empty?
+  end
+
+  # Checks whether the player has lost.
+  def lost?
+    incorrect_guesses.size > LIVES
+  end
+
+  # Gets the number of characters in the word.
+  def character_count
+    @word_characters.size
+  end
+end
+
+# The guessing machine which picks the guesses.
+class HangmanGuesser
+  # The location of the default dictionary to use.
+  DICTIONARY_FILE = '/usr/share/dict/words'
+  # An array of the characters that should be considered.
+  CHARACTERS = ('a'..'z').to_a
+  # Set this to true to see how the search progresses.
+  VERBOSE = true
+  # The maximum word length accepted.
+  MAX_WORD_LENGTH = 50
+
+  # The dictionary given should be the location of a file containing one
+  # word per line. The characters should be an array of all characters
+  # that should be considered (i.e. no words with other characters are
+  # included).
+  def initialize(hangman_game, characters = CHARACTERS)
+    @con = self.class.db_connection
+    @characters = characters
+    @hangman_game = hangman_game
+
+    reset_tables
+    prune_by_word_length @hangman_game.character_count
+  end
+
+  # Returns the guesses that the guesser would make.
+  def guesses
+    @guesses = []
+    log{ "There are #{word_count} potential words left." }
+    while not @hangman_game.won?
+      guess = next_guess
+      raise 'The word is not in the dictionary.' if guess.nil?
+      @guesses << guess
+      log{ "Guessing #{guess}" }
+      add_information(guess, @hangman_game.guess(guess))
+      log_state
+      log{ "\n" }
+    end
+    return @guesses
+  end
+
+  class << self
+    # Creates the database and populates it with the dictionary file
+    # located at the specified location. Only considers the specified
+    # characters (array).
+    def create_database(dictionary = DICTIONARY_FILE,
+        characters = CHARACTERS)
+      @con = db_connection
+      @characters = characters
+      @tables = ['words'] + @characters +
+        @characters.map{ |c| c + '_occurrences'}
+      create_tables
+      populate_tables File.open(dictionary)
+    end
+
+    # Connects to the database that should store the tables.
+    def db_connection
+      # Replace <username> and <password> with the database username and
+      # password.
+      Mysql.real_connect("localhost", <username>, <password>, "hangman")
+    end
+
+    private
+
+    # Creates the tables used to store words.
+    def create_tables
+      # Drop old tables.
+      @tables.each do |table|
+        @con.query "DROP TABLE IF EXISTS `#{table}`"
+      end
+
+      # Words table.
+      @con.query <<-"end_sql"
+        CREATE TABLE `words` (
+          `word_id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
+          `word` varchar(#{MAX_WORD_LENGTH}) NOT NULL,
+          `length` tinyint(3) unsigned NOT NULL,
+          `removed` tinyint(1) unsigned NOT NULL DEFAULT '0',
+          PRIMARY KEY (`word_id`),
+          INDEX (`removed`),
+          INDEX (`length`)
+        ) ENGINE=MyISAM
+      end_sql
+
+      # Tables for the number of occurrences of each character.
+      character_occurrences_table_template =<<-'end_template'
+        CREATE TABLE `%s_occurrences` (
+          `word_id` mediumint(8) unsigned NOT NULL,
+          `occurrences` tinyint(3) unsigned NOT NULL,
+          PRIMARY KEY (`occurrences`, `word_id`),
+          INDEX (`word_id`)
+        ) ENGINE=MyISAM
+      end_template
+
+      # Tables for the positions of each character.
+      character_table_template =<<-'end_template'
+        CREATE TABLE `%s` (
+          `word_id` mediumint(8) unsigned NOT NULL,
+          `position` tinyint(3) unsigned NOT NULL,
+          PRIMARY KEY (`position`, `word_id`),
+          INDEX (`word_id`)
+        ) ENGINE=MyISAM
+      end_template
+
+      @characters.each do |character|
+        @con.query character_occurrences_table_template % character
+        @con.query character_table_template % character
+      end
+    end
+
+    # Loads a dictionary into the database.
+    def populate_tables(dictionary_file)
+      # Disable the keys so that we don't update the indices while
+      # adding.
+      @tables.each do |table|
+        @con.query("ALTER TABLE #{table} DISABLE KEYS")
+      end
+
+      # Prepare statements.
+      add_word = @con.prepare(
+        "INSERT INTO words (word, length) VALUES (?, ?)")
+      add_character = {}
+      add_character_occurrences = {}
+      @characters.each do |character|
+        add_character[character] = @con.prepare(
+          "INSERT INTO #{character} (word_id, position) VALUES (?, ?)")
+        add_character_occurrences[character] = @con.prepare(
+          "INSERT INTO #{character}_occurrences " +
+          "(word_id, occurrences) VALUES (?, ?)")
+      end
+
+      # Populate the database.
+      previous_word = nil
+      dictionary_file.each_line do |line|
+        # Only consider words that only contain characters a-z. Make
+        # sure we don't get duplicates.
+        word = line.chomp.downcase
+        next if word == previous_word or word =~ /[^a-z]/ or
+          word.size > MAX_WORD_LENGTH
+
+        # Add the word, its character positions and number of
+        # occurrences.
+        add_word.execute(word, word.size)
+        word_id = @con.insert_id
+        characters = word.split(//)
+        characters.each_with_index do |character, position|
+          add_character[character].execute(word_id, position)
+        end
+        @characters.each do |character|
+          occurrences = characters.select{ |c| c == character }.size
+          add_character_occurrences[character].execute(
+            word_id, occurrences)
+        end
+
+        previous_word = word
+      end
+
+      # Generate the indices.
+      @tables.each do |table|
+        @con.query("ALTER TABLE #{table} ENABLE KEYS")
+      end
+    end
+  end
+
+  private
+
+  # Logs the current state of the guessing process.
+  def log_state
+    log do
+      messages = []
+      messages << @hangman_game.to_s
+      count = word_count
+      messages << "There are #{count} potential words left."
+      if count <= 10
+        res = @con.query('SELECT word FROM words WHERE removed = 0')
+        res.each{ |row| messages << row[0] }
+        res.free
+      end
+      messages.join("\n")
+    end
+  end
+
+  # Logs the string produced by the block (may not be executed at all).
+  def log(&block)
+    puts yield() if VERBOSE
+  end
+
+  # Gets the number of potential words left.
+  def word_count
+    res = @con.query('SELECT COUNT(*) FROM words WHERE removed = 0')
+    count = res.fetch_row[0].to_i
+    res.free
+    return count
+  end
+
+  # Computes the next character that should be guessed. The next guess
+  # is the character (that has not yet been tried) that occurrs in the
+  # most words remaining.
+  def next_guess
+    next_character = nil
+    max_count = 0
+    (@characters - @guesses).each do |character|
+      res = @con.query(
+        "SELECT COUNT(DISTINCT word_id) FROM #{character} " +
+        "NATURAL JOIN words WHERE removed = 0")
+      count = res.fetch_row[0].to_i
+      res.free
+      if count > max_count
+        next_character = character
+        max_count = count
+      end
+    end
+    return next_character
+  end
+
+  # Adds the information about at what indices in the word the specified
+  # character can be found to the guesser.
+  def add_information(character, indices)
+    if indices.empty?
+      # The character isn't in the word.
+      sql =<<-"end_sql"
+        UPDATE words SET removed = 1 WHERE removed = 0 AND word_id IN (
+          SELECT word_id FROM #{character}
+        )
+      end_sql
+    else
+      # Remove all words where the character isn't at the specified
+      # places.
+      sql =<<-"end_sql"
+        UPDATE words NATURAL JOIN #{character}_occurrences
+        SET removed = 1
+        WHERE removed = 0
+          AND (occurrences != #{indices.size}
+            OR word_id IN (
+              SELECT word_id FROM #{character}
+              WHERE position NOT IN (#{indices.join(', ')})
+            )
+          )
+      end_sql
+    end
+    @con.query(sql)
+  end
+
+  # Resets the table to start a new round of guesses.
+  def reset_tables
+    @con.query('UPDATE words SET removed = 0')
+  end
+
+  # Prunes all words that do not have the specified length.
+  def prune_by_word_length(expected_length)
+    @con.query(
+      "UPDATE words SET removed = 1 WHERE length != #{expected_length}")
+  end
+end
+
+
+opts = GetoptLong.new(
+  [ '--help', '-h', GetoptLong::NO_ARGUMENT],
+  ['--dictionary', '-d', GetoptLong::OPTIONAL_ARGUMENT])
+opts.each do |opt, arg|
+  case opt
+    when '--help'
+      RDoc::usage
+    when '--dictionary'
+      if arg != ''
+        HangmanGuesser.create_database(arg)
+      else
+        HangmanGuesser.create_database
+      end
+  end
+end
+
+if ARGV.size != 1
+  abort "Incorrect usage, see --help"
+end
+
+game = Hangman.new(ARGV[0])
+guesses =  HangmanGuesser.new(game).guesses
+if game.won?
+  puts 'Successfully guessed the word.'
+else game.lost?
+  puts 'Failed guessing the word.'
+end
+puts "Made the following guesses: #{guesses.join(', ')}"
+puts "Expended a total of #{game.incorrect_guesses.size} lives."

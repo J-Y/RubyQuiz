@@ -1,0 +1,132 @@
+#!/usr/bin/env ruby
+
+module LCD
+  class Template
+    def self.height(size)
+      3 + (2 * size)
+    end
+  
+    def initialize(string, option)
+      case option
+        when "h"
+          @horizontal_stable = true
+      end
+      @lines = string.gsub(/\./, ' ').split("\n")
+    end
+    
+    def actual_line(line, size)
+      case
+        when line == 0
+          0
+        when line == (self.class.height(size) - 1)
+          4
+        when line < (size + 1)
+          1
+        when line == (size + 1)
+          2
+        else
+          3
+      end
+    end
+  
+    def display(line, size)
+      l = @lines[actual_line(line, size)].dup
+      l[1, 1] *= size unless(@horizontal_stable)
+      l
+    end
+  end
+
+  TEMPLATES = {}
+  DATA.read.scan(/=([^\n])([a-z]?)\n([^=]+)/m){|c, option, t| TEMPLATES[c] = Template.new(t, option)}
+
+  def self.display(string, size=1)
+    output = ""
+    input = string.split(//)
+    Template.height(size).times do |i|
+      line = []
+      input.each do |character|
+        line << TEMPLATES[character].display(i, size)
+      end
+      output << "#{line.join(" " * size)}\n"
+    end
+    output
+  end
+end
+
+if(__FILE__ == $0)
+  require 'optparse'
+
+  size = 1
+  ARGV.options do |o|
+    o.on("-sSIZE", "--size", Integer){|size|}
+  end.parse!
+  puts LCD::display(ARGV.first, size)
+end
+
+__END__
+=0
+.-.
+|.|
+...
+|.|
+.-.
+=1
+...
+..|
+...
+..|
+...
+=2
+.-.
+..|
+.-.
+|..
+.-.
+=3
+.-.
+..|
+.-.
+..|
+.-.
+=4
+...
+|.|
+.-.
+..|
+...
+=5
+.-.
+|..
+.-.
+..|
+.-.
+=6
+.-.
+|..
+.-.
+|.|
+.-.
+=7
+.-.
+..|
+...
+..|
+...
+=8
+.-.
+|.|
+.-.
+|.|
+.-.
+=9
+.-.
+|.|
+.-.
+..|
+.-.
+=:h
+...
+...
+.-.
+...
+.-.

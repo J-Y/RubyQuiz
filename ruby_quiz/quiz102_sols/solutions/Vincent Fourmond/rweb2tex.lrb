@@ -1,0 +1,134 @@
+Now that we have a \verb|rweb.rb| file that does the correct job
+of executing the literate Ruby code given, the next step in literate
+programming is to actually provide a nice display of the program.
+
+\verb|rweb2text.rb| converts the text and the code of a literate Ruby
+program into (hopefully) nicely formatted LaTeX.
+
+The \verb|RWebBeautifier| is the main class.
+
+class RWebBeautifier
+
+Now, we copy the regular expressions to parse the literate programs
+straight from \verb|rweb|
+
+\begin{code}
+# Escapes a whole line if it starts with this regular expression: the
+# rest of the line is fed as is to the current output (text or code)
+# without interpretation.
+ESCAPE = /^\s*@@/
+
+# Inline code
+INLINE = /^\s*>+/
+
+# Beginning of a code block
+B_o_CODE = /^\s*\\begin\{code\}\s*$/
+
+# End of a code block
+E_o_CODE = /^\s*\\end\{code\}\s*$/
+\end{code}
+
+Initialization; as I don't provide many hooks, this is rather simple:
+\verb|cls| is the document class, \verb|code_env| is the name of
+the environment used to display code and \verb|packages|
+a list of packages to be included.
+\begin{code}
+def initialize(cls = 'article', 
+               code_env = 'verbatim', 
+               packages = ['verbatim'])
+  @document_class = cls
+  @code_env = code_env
+  @packages = packages
+end
+\end{code}
+
+The \verb|literate_lines| function is a rewrite of
+\verb|unliterate_lines| from \verb|rweb.rb| --- a rewrite is indeed
+needed as special formatting is required for included code, and
+we don't really care about getting only code.
+
+\begin{code}
+def literate_lines(lines)
+  text = []
+  code = []
+\end{code}
+
+This time, \verb|code| holds a different meaning: it is the current code
+block, not all the code read so far.
+
+\begin{code}
+  current = text
+  for line in lines
+    case line
+    when ESCAPE               # Escaping
+      current << $'
+    when INLINE
+      code << $'
+    when B_o_CODE
+      if current == code
+        current << line
+      else
+        current = code
+      end
+    when E_o_CODE
+      if current == text
+        current << line
+      else
+        current = text
+      end
+    else
+\end{code}
+Now come the real difference: if we are in text mode, we need to flush first
+the code which hasn't been written yet.
+\begin{code}
+      if (current == text) and (not code.empty?)
+        current << "\\begin{#{@code_env}}\n"
+\end{code}
+Here, I had first coded using a simple \verb|+=|, but that miserably
+fails to work, because after it, \verb|current| is neither \verb|text|
+nor \verb|code|, and the code is lost. The solution is
+\begin{code}
+        current.concat(code)
+        current << "\\end{#{@code_env}}\n"
+        code.clear
+      end
+      current << line
+    end
+  end
+  return text
+end
+\end{code}
+
+Now, a simple function that wraps the appropriate
+\verb|literate_lines| call for a file. I find it self-explanatory.
+\begin{code}
+def literate_file(file)
+  output_file = file.sub(/(\.lrb)?$/, '.tex')
+  out = File.open(output_file, 'w')
+  out.puts "\\documentclass{#{@document_class}}"
+  @packages.each do |p|
+    out.puts "\\usepackage{#{p}}"
+  end
+  out.puts "\\begin{document}"
+  out.puts(literate_lines(File.open(file).readlines))
+  out.puts "\\end{document}"
+  out.close
+end
+\end{code}
+
+The end of the class.
+
+end
+
+Now, what is left is some wrapper call; we first create an instance of
+\verb|RWebBeautifier|
+
+rweb = RWebBeautifier.new
+
+And we use it on all command-line arguments:
+
+ARGV.each do |file|
+rweb.literate_file(file)
+end
+
+And that's all ! 

@@ -1,0 +1,14 @@
+#!/bin/bash
+
+rm lp.v lp.t
+
+grep -v Train lp > lp.v
+grep -v Validate lp > lp.t
+
+ploticus  -prefab stack x=2 y=3 y2=4 y3=5  xautorange=yes xlbl='Iterations' ylbl='Games played' yrange='0 500' xnumeric=yes data='lp.t' reverseleg=yes header=yes legend='8.6 3.1' autow=yes -eps -o 'training.eps'
+
+ploticus  -prefab stack x=2 y=3 y2=4 y3=5 xautorange=yes xlbl='Iterations' ylbl='Games played' yrange='0 40' xnumeric=yes data='lp.v' reverseleg=yes header=yes legend='8.6 3.1' autow=yes -eps -o 'verification.eps'
+
+ploticus -prefab stack -pagesize 10,5 x=2 y=3 y2=4 y3=5 autow=yes xautorange=yes xlbl='Iterations' ylbl='Games played' yrange='0 500' xnumeric=yes data='lp.t' reverseleg=yes header=yes legend='8.6 3.1' -png -o 'training.png' 
+
+ploticus  -prefab stack -pagesize 10,5 x=2 y=3 y2=4 y3=5 xautorange=yes xlbl='Iterations' ylbl='Games played' yrange='0 40' xnumeric=yes data='lp.v' reverseleg=yes header=yes legend='8.6 3.1' autow=yes -png -o 'verification.png'

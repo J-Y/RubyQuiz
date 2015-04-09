@@ -1,0 +1,20 @@
+<%= start_form_tag :action => "signup" %>
+
+<h3>Signup</h3>
+<%= error_messages_for "person" %><br/>
+
+<dl>
+	<dt><label for="person_full_name">Full name:</label></dt>
+	<dd><%= text_field "person", "full_name", :size => 30 %></dd>
+	<dt><label for="person_email">Email address:</label></dt>
+	<dd><%= text_field "person", "email", :size => 30 %></dd>
+	<dt><label for="person_password">Choose password:</label></dt>
+	<dd><%= password_field "person", "password", :size => 30 %></dd>
+	<dt><label for="person_password_confirmation">Confirm password:</label></dt>
+	<dd><%= password_field "person", "password_confirmation",
+	                       :size => 30 %></dd>
+</dl>
+
+<p><%= submit_tag "Signup" %></p>
+
+<%= end_form_tag %>

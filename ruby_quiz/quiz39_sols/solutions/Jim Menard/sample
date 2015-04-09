@@ -1,0 +1,14 @@
+#!/usr/bin/env ruby
+
+require 'set'
+
+def sample(members, range)
+  selected = Set.new
+  members.times {
+    val = rand(range)
+    val = rand(range) until selected.add?(val)
+  }
+  selected.to_a.sort
+end
+
+puts sample(ARGV[0].to_i, ARGV[1].to_i).join("\n")

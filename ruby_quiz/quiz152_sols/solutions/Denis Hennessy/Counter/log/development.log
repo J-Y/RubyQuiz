@@ -1,0 +1,114 @@
+# Logfile created on Sun Jan 13 15:03:51 -0600 2008
+
+Processing CardCounterController#index (for 127.0.0.1 at 2008-01-13 15:04:03) [GET]
+  Session ID: a8a8de42e555c752dd48c8235495cb88
+  Parameters: {"action"=>"index", "controller"=>"card_counter"}
+Rendering card_counter/index
+Completed in 0.00687 (145 reqs/sec) | Rendering: 0.00385 (56%) | DB: 0.00000 (0%) | 200 OK [http://localhost/card_counter]
+
+
+Processing CardCounterController#practice (for 127.0.0.1 at 2008-01-13 15:04:20) [POST]
+  Session ID: BAh7BzoMY3NyZl9pZCIlOTVhMTVkZTQwMTliMDlhMTA3Yzg5NDVjN2YwODdk%0AYjciCmZsYXNoSUM6J0FjdGlvbkNvbnRyb2xsZXI6OkZsYXNoOjpGbGFzaEhh%0Ac2h7AAY6CkB1c2VkewA%3D--3d10d094661b093a84c041f1deeaf81d6d520064
+  Parameters: {"commit"=>"Start", "delay"=>"5", "max"=>"2", "authenticity_token"=>"501170d17ada6b6055811abcbd6f4d52681544a4", "action"=>"practice", "controller"=>"card_counter", "min"=>"1", "decks"=>"1"}
+Rendering card_counter/practice
+Completed in 0.00418 (239 reqs/sec) | Rendering: 0.00215 (51%) | DB: 0.00000 (0%) | 200 OK [http://localhost/card_counter/practice]
+
+
+Processing CardCounterController#deal (for 127.0.0.1 at 2008-01-13 15:04:25) [POST]
+  Session ID: BAh7CzoKZGVsYXlpCjoIbWF4aQc6DGNvdW50ZXJvOgxDb3VudGVyBzoLQGNv%0AdW50aQA6CkBzaG9lWzkiB1FzIgdKZCIHQWgiB1FoIgdUZCIHMmQiBzhkIgcy%0AYyIHS2QiB0tzIgdBZCIHNXMiBzNzIgdKaCIHNGQiBzVjIgc5aCIHS2MiBzJz%0AIgc5ZCIHMmgiB1FkIgdKYyIHM2giBzdoIgc2cyIHNWQiBzdzIgc5YyIHNGgi%0ABzhoIgczZCIHNmgiBzZkIgdKcyIHVGgiBzlzIgc4cyIHNWgiBzRjIgc2YyIH%0AVGMiBzdkIgc4YyIHNHMiBzNjIgdLaCIHQXMiBzdjIgdUcyIHUWMiB0FjOgxj%0Ac3JmX2lkIiU5NWExNWRlNDAxOWIwOWExMDdjODk0NWM3ZjA4N2RiNyIKZmxh%0Ac2hJQzonQWN0aW9uQ29udHJvbGxlcjo6Rmxhc2g6OkZsYXNoSGFzaHsABjoK%0AQHVzZWR7ADoIbWluaQY%3D--4e8b295d486b76d1982bed11f8b146206c5044e8
+  Parameters: {"authenticity_token"=>"501170d17ada6b6055811abcbd6f4d52681544a4", "action"=>"deal", "controller"=>"card_counter"}
+Completed in 0.00190 (527 reqs/sec) | Rendering: 0.00004 (1%) | DB: 0.00000 (0%) | 200 OK [http://localhost/card_counter/deal]
+
+
+Processing CardCounterController#deal (for 127.0.0.1 at 2008-01-13 15:04:30) [POST]
+  Session ID: BAh7CzoKZGVsYXlpCjoIbWF4aQc6DGNvdW50ZXJvOgxDb3VudGVyBzoLQGNv%0AdW50afk6CkBzaG9lWzciB1FzIgdKZCIHQWgiB1FoIgdUZCIHMmQiBzhkIgcy%0AYyIHS2QiB0tzIgdBZCIHNXMiBzNzIgdKaCIHNGQiBzVjIgc5aCIHS2MiBzJz%0AIgc5ZCIHMmgiB1FkIgdKYyIHM2giBzdoIgc2cyIHNWQiBzdzIgc5YyIHNGgi%0ABzhoIgczZCIHNmgiBzZkIgdKcyIHVGgiBzlzIgc4cyIHNWgiBzRjIgc2YyIH%0AVGMiBzdkIgc4YyIHNHMiBzNjIgdLaCIHQXMiBzdjIgdUczoMY3NyZl9pZCIl%0AOTVhMTVkZTQwMTliMDlhMTA3Yzg5NDVjN2YwODdkYjciCmZsYXNoSUM6J0Fj%0AdGlvbkNvbnRyb2xsZXI6OkZsYXNoOjpGbGFzaEhhc2h7AAY6CkB1c2VkewA6%0ACG1pbmkG--aad003321893eafa5d38c4edd144aac6d13d94a0
+  Parameters: {"authenticity_token"=>"501170d17ada6b6055811abcbd6f4d52681544a4", "action"=>"deal", "controller"=>"card_counter"}
+Completed in 0.00180 (556 reqs/sec) | Rendering: 0.00003 (1%) | DB: 0.00000 (0%) | 200 OK [http://localhost/card_counter/deal]
+
+
+Processing CardCounterController#deal (for 127.0.0.1 at 2008-01-13 15:04:35) [POST]
+  Session ID: BAh7CzoKZGVsYXlpCjoIbWF4aQc6DGNvdW50ZXJvOgxDb3VudGVyBzoLQGNv%0AdW50afg6CkBzaG9lWzYiB1FzIgdKZCIHQWgiB1FoIgdUZCIHMmQiBzhkIgcy%0AYyIHS2QiB0tzIgdBZCIHNXMiBzNzIgdKaCIHNGQiBzVjIgc5aCIHS2MiBzJz%0AIgc5ZCIHMmgiB1FkIgdKYyIHM2giBzdoIgc2cyIHNWQiBzdzIgc5YyIHNGgi%0ABzhoIgczZCIHNmgiBzZkIgdKcyIHVGgiBzlzIgc4cyIHNWgiBzRjIgc2YyIH%0AVGMiBzdkIgc4YyIHNHMiBzNjIgdLaCIHQXMiBzdjOgxjc3JmX2lkIiU5NWEx%0ANWRlNDAxOWIwOWExMDdjODk0NWM3ZjA4N2RiNyIKZmxhc2hJQzonQWN0aW9u%0AQ29udHJvbGxlcjo6Rmxhc2g6OkZsYXNoSGFzaHsABjoKQHVzZWR7ADoIbWlu%0AaQY%3D--9b46c3fd3f8906315bf15aa63aad3805bcf96f37
+  Parameters: {"authenticity_token"=>"501170d17ada6b6055811abcbd6f4d52681544a4", "action"=>"deal", "controller"=>"card_counter"}
+Completed in 0.00183 (546 reqs/sec) | Rendering: 0.00004 (2%) | DB: 0.00000 (0%) | 200 OK [http://localhost/card_counter/deal]
+
+
+Processing CardCounterController#deal (for 127.0.0.1 at 2008-01-13 15:04:40) [POST]
+  Session ID: BAh7CzoKZGVsYXlpCjoIbWF4aQc6DGNvdW50ZXJvOgxDb3VudGVyBzoLQGNv%0AdW50afk6CkBzaG9lWzUiB1FzIgdKZCIHQWgiB1FoIgdUZCIHMmQiBzhkIgcy%0AYyIHS2QiB0tzIgdBZCIHNXMiBzNzIgdKaCIHNGQiBzVjIgc5aCIHS2MiBzJz%0AIgc5ZCIHMmgiB1FkIgdKYyIHM2giBzdoIgc2cyIHNWQiBzdzIgc5YyIHNGgi%0ABzhoIgczZCIHNmgiBzZkIgdKcyIHVGgiBzlzIgc4cyIHNWgiBzRjIgc2YyIH%0AVGMiBzdkIgc4YyIHNHMiBzNjIgdLaCIHQXM6DGNzcmZfaWQiJTk1YTE1ZGU0%0AMDE5YjA5YTEwN2M4OTQ1YzdmMDg3ZGI3IgpmbGFzaElDOidBY3Rpb25Db250%0Acm9sbGVyOjpGbGFzaDo6Rmxhc2hIYXNoewAGOgpAdXNlZHsAOghtaW5pBg%3D%3D--337ff402005bb1db5c6ea88fcb99b18635f5c85f
+  Parameters: {"authenticity_token"=>"501170d17ada6b6055811abcbd6f4d52681544a4", "action"=>"deal", "controller"=>"card_counter"}
+Completed in 0.00176 (567 reqs/sec) | Rendering: 0.00003 (1%) | DB: 0.00000 (0%) | 200 OK [http://localhost/card_counter/deal]
+
+
+Processing CardCounterController#deal (for 127.0.0.1 at 2008-01-13 15:04:45) [POST]
+  Session ID: BAh7CzoKZGVsYXlpCjoIbWF4aQc6DGNvdW50ZXJvOgxDb3VudGVyBzoLQGNv%0AdW50afc6CkBzaG9lWzMiB1FzIgdKZCIHQWgiB1FoIgdUZCIHMmQiBzhkIgcy%0AYyIHS2QiB0tzIgdBZCIHNXMiBzNzIgdKaCIHNGQiBzVjIgc5aCIHS2MiBzJz%0AIgc5ZCIHMmgiB1FkIgdKYyIHM2giBzdoIgc2cyIHNWQiBzdzIgc5YyIHNGgi%0ABzhoIgczZCIHNmgiBzZkIgdKcyIHVGgiBzlzIgc4cyIHNWgiBzRjIgc2YyIH%0AVGMiBzdkIgc4YyIHNHMiBzNjOgxjc3JmX2lkIiU5NWExNWRlNDAxOWIwOWEx%0AMDdjODk0NWM3ZjA4N2RiNyIKZmxhc2hJQzonQWN0aW9uQ29udHJvbGxlcjo6%0ARmxhc2g6OkZsYXNoSGFzaHsABjoKQHVzZWR7ADoIbWluaQY%3D--bef9e9cf810437dc4c972c0423bee0b267074827
+  Parameters: {"authenticity_token"=>"501170d17ada6b6055811abcbd6f4d52681544a4", "action"=>"deal", "controller"=>"card_counter"}
+Completed in 0.00176 (567 reqs/sec) | Rendering: 0.00003 (1%) | DB: 0.00000 (0%) | 200 OK [http://localhost/card_counter/deal]
+
+
+Processing CardCounterController#index (for 127.0.0.1 at 2008-01-13 15:05:10) [GET]
+  Session ID: BAh7CzoKZGVsYXlpCjoIbWF4aQc6DGNvdW50ZXJvOgxDb3VudGVyBzoLQGNv%0AdW50afk6CkBzaG9lWzEiB1FzIgdKZCIHQWgiB1FoIgdUZCIHMmQiBzhkIgcy%0AYyIHS2QiB0tzIgdBZCIHNXMiBzNzIgdKaCIHNGQiBzVjIgc5aCIHS2MiBzJz%0AIgc5ZCIHMmgiB1FkIgdKYyIHM2giBzdoIgc2cyIHNWQiBzdzIgc5YyIHNGgi%0ABzhoIgczZCIHNmgiBzZkIgdKcyIHVGgiBzlzIgc4cyIHNWgiBzRjIgc2YyIH%0AVGMiBzdkIgc4YzoMY3NyZl9pZCIlOTVhMTVkZTQwMTliMDlhMTA3Yzg5NDVj%0AN2YwODdkYjciCmZsYXNoSUM6J0FjdGlvbkNvbnRyb2xsZXI6OkZsYXNoOjpG%0AbGFzaEhhc2h7AAY6CkB1c2VkewA6CG1pbmkG--85f6a93c31e54443ba7bdf9fbe178e174bda4fac
+  Parameters: {"action"=>"index", "controller"=>"card_counter"}
+Rendering card_counter/index
+Completed in 0.00336 (298 reqs/sec) | Rendering: 0.00118 (35%) | DB: 0.00000 (0%) | 200 OK [http://localhost/card_counter]
+
+
+Processing CardCounterController#practice (for 127.0.0.1 at 2008-01-13 15:05:19) [POST]
+  Session ID: BAh7CzoKZGVsYXlpCjoIbWF4aQc6DGNvdW50ZXJvOgxDb3VudGVyBzoLQGNv%0AdW50afk6CkBzaG9lWzEiB1FzIgdKZCIHQWgiB1FoIgdUZCIHMmQiBzhkIgcy%0AYyIHS2QiB0tzIgdBZCIHNXMiBzNzIgdKaCIHNGQiBzVjIgc5aCIHS2MiBzJz%0AIgc5ZCIHMmgiB1FkIgdKYyIHM2giBzdoIgc2cyIHNWQiBzdzIgc5YyIHNGgi%0ABzhoIgczZCIHNmgiBzZkIgdKcyIHVGgiBzlzIgc4cyIHNWgiBzRjIgc2YyIH%0AVGMiBzdkIgc4YzoMY3NyZl9pZCIlOTVhMTVkZTQwMTliMDlhMTA3Yzg5NDVj%0AN2YwODdkYjciCmZsYXNoSUM6J0FjdGlvbkNvbnRyb2xsZXI6OkZsYXNoOjpG%0AbGFzaEhhc2h7AAY6CkB1c2VkewA6CG1pbmkG--85f6a93c31e54443ba7bdf9fbe178e174bda4fac
+  Parameters: {"commit"=>"Start", "delay"=>"5", "max"=>"2", "authenticity_token"=>"501170d17ada6b6055811abcbd6f4d52681544a4", "action"=>"practice", "controller"=>"card_counter", "min"=>"1", "decks"=>"1"}
+Rendering card_counter/practice
+Completed in 0.00284 (351 reqs/sec) | Rendering: 0.00086 (30%) | DB: 0.00000 (0%) | 200 OK [http://localhost/card_counter/practice]
+
+
+Processing CardCounterController#deal (for 127.0.0.1 at 2008-01-13 15:05:24) [POST]
+  Session ID: BAh7CzoKZGVsYXlpCjoIbWF4aQc6DGNvdW50ZXJvOgxDb3VudGVyBzoLQGNv%0AdW50aQA6CkBzaG9lWzkiB0pjIgdBZCIHOXMiBzVoIgdLaCIHS3MiBzdoIgdU%0AcyIHNHMiBzJkIgczaCIHSmQiB0pzIgczZCIHOWQiBzhzIgdLYyIHOGgiBzZz%0AIgcyaCIHUWQiB0FzIgdRYyIHS2QiBzZjIgdRaCIHOGQiBzljIgcyYyIHNGgi%0ABzVjIgczcyIHVGgiBzdkIgdUZCIHUXMiBzNjIgdBYyIHVGMiB0FoIgc2aCIH%0ANGQiBzloIgcycyIHN2MiBzVkIgc3cyIHNXMiB0poIgc0YyIHOGMiBzZkOgxj%0Ac3JmX2lkIiU5NWExNWRlNDAxOWIwOWExMDdjODk0NWM3ZjA4N2RiNyIKZmxh%0Ac2hJQzonQWN0aW9uQ29udHJvbGxlcjo6Rmxhc2g6OkZsYXNoSGFzaHsABjoK%0AQHVzZWR7ADoIbWluaQY%3D--4d3cf9daad05b8dd79b4a8374365efda450531ea
+  Parameters: {"authenticity_token"=>"501170d17ada6b6055811abcbd6f4d52681544a4", "action"=>"deal", "controller"=>"card_counter"}
+Completed in 0.00179 (559 reqs/sec) | Rendering: 0.00006 (3%) | DB: 0.00000 (0%) | 200 OK [http://localhost/card_counter/deal]
+
+
+Processing CardCounterController#deal (for 127.0.0.1 at 2008-01-13 15:05:29) [POST]
+  Session ID: BAh7CzoKZGVsYXlpCjoIbWF4aQc6DGNvdW50ZXJvOgxDb3VudGVyBzoLQGNv%0AdW50aQY6CkBzaG9lWzgiB0pjIgdBZCIHOXMiBzVoIgdLaCIHS3MiBzdoIgdU%0AcyIHNHMiBzJkIgczaCIHSmQiB0pzIgczZCIHOWQiBzhzIgdLYyIHOGgiBzZz%0AIgcyaCIHUWQiB0FzIgdRYyIHS2QiBzZjIgdRaCIHOGQiBzljIgcyYyIHNGgi%0ABzVjIgczcyIHVGgiBzdkIgdUZCIHUXMiBzNjIgdBYyIHVGMiB0FoIgc2aCIH%0ANGQiBzloIgcycyIHN2MiBzVkIgc3cyIHNXMiB0poIgc0YyIHOGM6DGNzcmZf%0AaWQiJTk1YTE1ZGU0MDE5YjA5YTEwN2M4OTQ1YzdmMDg3ZGI3IgpmbGFzaElD%0AOidBY3Rpb25Db250cm9sbGVyOjpGbGFzaDo6Rmxhc2hIYXNoewAGOgpAdXNl%0AZHsAOghtaW5pBg%3D%3D--60dadacdecfacdcfe19b79608215abe9d57f4c27
+  Parameters: {"authenticity_token"=>"501170d17ada6b6055811abcbd6f4d52681544a4", "action"=>"deal", "controller"=>"card_counter"}
+Completed in 0.00182 (550 reqs/sec) | Rendering: 0.00004 (1%) | DB: 0.00000 (0%) | 200 OK [http://localhost/card_counter/deal]
+
+
+Processing CardCounterController#index (for 127.0.0.1 at 2008-01-13 15:05:52) [GET]
+  Session ID: b9c4beb2259fd83a8362a9e10566305c
+  Parameters: {"action"=>"index", "controller"=>"card_counter"}
+Rendering card_counter/index
+Completed in 0.00300 (333 reqs/sec) | Rendering: 0.00121 (40%) | DB: 0.00000 (0%) | 200 OK [http://localhost/card_counter]
+
+
+Processing CardCounterController#practice (for 127.0.0.1 at 2008-01-13 15:06:05) [POST]
+  Session ID: BAh7BzoMY3NyZl9pZCIlYzE3YTg5Mzc2N2IxZTBjOTlmODNjNDQzOGQ0YjQ2%0AZWMiCmZsYXNoSUM6J0FjdGlvbkNvbnRyb2xsZXI6OkZsYXNoOjpGbGFzaEhh%0Ac2h7AAY6CkB1c2VkewA%3D--5f9acc2f27a29431bc1418d75382168cd6a1003c
+  Parameters: {"commit"=>"Start", "delay"=>"5", "max"=>"2", "authenticity_token"=>"c6f999833d521cac594e29b4be7fc0efe76185ad", "action"=>"practice", "controller"=>"card_counter", "min"=>"1", "decks"=>"1"}
+Rendering card_counter/practice
+Completed in 0.05041 (19 reqs/sec) | Rendering: 0.00093 (1%) | DB: 0.00000 (0%) | 200 OK [http://localhost/card_counter/practice]
+
+
+Processing CardCounterController#deal (for 127.0.0.1 at 2008-01-13 15:06:11) [POST]
+  Session ID: BAh7CzoKZGVsYXlpCjoIbWF4aQc6DGNvdW50ZXJvOgxDb3VudGVyBzoLQGNv%0AdW50aQA6CkBzaG9lWzkiBzVzIgc4ZCIHN2QiB0FoIgc1ZCIHN2MiB1RoIgc5%0AZCIHNGMiB1FkIgdKZCIHSmgiBzZjIgdLcyIHN3MiBzljIgdRcyIHSnMiBzVo%0AIgc5cyIHM2MiB0FjIgc0ZCIHNHMiBzJoIgdUYyIHUWgiBzZzIgc2aCIHM3Mi%0AB0pjIgc0aCIHM2giBzhoIgdBcyIHS2giBzZkIgdRYyIHOHMiB1RzIgc3aCIH%0AMmQiB0tkIgczZCIHMnMiBzVjIgc5aCIHOGMiB0FkIgdLYyIHVGQiBzJjOgxj%0Ac3JmX2lkIiVjMTdhODkzNzY3YjFlMGM5OWY4M2M0NDM4ZDRiNDZlYyIKZmxh%0Ac2hJQzonQWN0aW9uQ29udHJvbGxlcjo6Rmxhc2g6OkZsYXNoSGFzaHsABjoK%0AQHVzZWR7ADoIbWluaQY%3D--f075009d90bed4a7636fa78db3318fc43433d1ec
+  Parameters: {"authenticity_token"=>"c6f999833d521cac594e29b4be7fc0efe76185ad", "action"=>"deal", "controller"=>"card_counter"}
+Completed in 0.00180 (554 reqs/sec) | Rendering: 0.00003 (1%) | DB: 0.00000 (0%) | 200 OK [http://localhost/card_counter/deal]
+
+
+Processing CardCounterController#deal (for 127.0.0.1 at 2008-01-13 15:06:16) [POST]
+  Session ID: BAh7CzoKZGVsYXlpCjoIbWF4aQc6DGNvdW50ZXJvOgxDb3VudGVyBzoLQGNv%0AdW50aQA6CkBzaG9lWzciBzVzIgc4ZCIHN2QiB0FoIgc1ZCIHN2MiB1RoIgc5%0AZCIHNGMiB1FkIgdKZCIHSmgiBzZjIgdLcyIHN3MiBzljIgdRcyIHSnMiBzVo%0AIgc5cyIHM2MiB0FjIgc0ZCIHNHMiBzJoIgdUYyIHUWgiBzZzIgc2aCIHM3Mi%0AB0pjIgc0aCIHM2giBzhoIgdBcyIHS2giBzZkIgdRYyIHOHMiB1RzIgc3aCIH%0AMmQiB0tkIgczZCIHMnMiBzVjIgc5aCIHOGMiB0FkIgdLYzoMY3NyZl9pZCIl%0AYzE3YTg5Mzc2N2IxZTBjOTlmODNjNDQzOGQ0YjQ2ZWMiCmZsYXNoSUM6J0Fj%0AdGlvbkNvbnRyb2xsZXI6OkZsYXNoOjpGbGFzaEhhc2h7AAY6CkB1c2VkewA6%0ACG1pbmkG--ca7514c592aa665091edda1712448adc3b9b7e32
+  Parameters: {"authenticity_token"=>"c6f999833d521cac594e29b4be7fc0efe76185ad", "action"=>"deal", "controller"=>"card_counter"}
+Completed in 0.00204 (490 reqs/sec) | Rendering: 0.00004 (1%) | DB: 0.00000 (0%) | 200 OK [http://localhost/card_counter/deal]
+
+
+Processing CardCounterController#deal (for 127.0.0.1 at 2008-01-13 15:06:21) [POST]
+  Session ID: BAh7CzoKZGVsYXlpCjoIbWF4aQc6DGNvdW50ZXJvOgxDb3VudGVyBzoLQGNv%0AdW50afo6CkBzaG9lWzYiBzVzIgc4ZCIHN2QiB0FoIgc1ZCIHN2MiB1RoIgc5%0AZCIHNGMiB1FkIgdKZCIHSmgiBzZjIgdLcyIHN3MiBzljIgdRcyIHSnMiBzVo%0AIgc5cyIHM2MiB0FjIgc0ZCIHNHMiBzJoIgdUYyIHUWgiBzZzIgc2aCIHM3Mi%0AB0pjIgc0aCIHM2giBzhoIgdBcyIHS2giBzZkIgdRYyIHOHMiB1RzIgc3aCIH%0AMmQiB0tkIgczZCIHMnMiBzVjIgc5aCIHOGMiB0FkOgxjc3JmX2lkIiVjMTdh%0AODkzNzY3YjFlMGM5OWY4M2M0NDM4ZDRiNDZlYyIKZmxhc2hJQzonQWN0aW9u%0AQ29udHJvbGxlcjo6Rmxhc2g6OkZsYXNoSGFzaHsABjoKQHVzZWR7ADoIbWlu%0AaQY%3D--53a4f12843721a480e976a063602d7a27dabd952
+  Parameters: {"authenticity_token"=>"c6f999833d521cac594e29b4be7fc0efe76185ad", "action"=>"deal", "controller"=>"card_counter"}
+Completed in 0.00176 (566 reqs/sec) | Rendering: 0.00003 (1%) | DB: 0.00000 (0%) | 200 OK [http://localhost/card_counter/deal]
+
+
+Processing CardCounterController#deal (for 127.0.0.1 at 2008-01-13 15:06:26) [POST]
+  Session ID: BAh7CzoKZGVsYXlpCjoIbWF4aQc6DGNvdW50ZXJvOgxDb3VudGVyBzoLQGNv%0AdW50afk6CkBzaG9lWzUiBzVzIgc4ZCIHN2QiB0FoIgc1ZCIHN2MiB1RoIgc5%0AZCIHNGMiB1FkIgdKZCIHSmgiBzZjIgdLcyIHN3MiBzljIgdRcyIHSnMiBzVo%0AIgc5cyIHM2MiB0FjIgc0ZCIHNHMiBzJoIgdUYyIHUWgiBzZzIgc2aCIHM3Mi%0AB0pjIgc0aCIHM2giBzhoIgdBcyIHS2giBzZkIgdRYyIHOHMiB1RzIgc3aCIH%0AMmQiB0tkIgczZCIHMnMiBzVjIgc5aCIHOGM6DGNzcmZfaWQiJWMxN2E4OTM3%0ANjdiMWUwYzk5ZjgzYzQ0MzhkNGI0NmVjIgpmbGFzaElDOidBY3Rpb25Db250%0Acm9sbGVyOjpGbGFzaDo6Rmxhc2hIYXNoewAGOgpAdXNlZHsAOghtaW5pBg%3D%3D--09c91bd057b68d4ed69f4f4edb2b9d88339767d5
+  Parameters: {"authenticity_token"=>"c6f999833d521cac594e29b4be7fc0efe76185ad", "action"=>"deal", "controller"=>"card_counter"}
+Completed in 0.00177 (565 reqs/sec) | Rendering: 0.00003 (1%) | DB: 0.00000 (0%) | 200 OK [http://localhost/card_counter/deal]
+
+
+Processing CardCounterController#deal (for 127.0.0.1 at 2008-01-13 15:06:31) [POST]
+  Session ID: BAh7CzoKZGVsYXlpCjoIbWF4aQc6DGNvdW50ZXJvOgxDb3VudGVyBzoLQGNv%0AdW50afk6CkBzaG9lWzMiBzVzIgc4ZCIHN2QiB0FoIgc1ZCIHN2MiB1RoIgc5%0AZCIHNGMiB1FkIgdKZCIHSmgiBzZjIgdLcyIHN3MiBzljIgdRcyIHSnMiBzVo%0AIgc5cyIHM2MiB0FjIgc0ZCIHNHMiBzJoIgdUYyIHUWgiBzZzIgc2aCIHM3Mi%0AB0pjIgc0aCIHM2giBzhoIgdBcyIHS2giBzZkIgdRYyIHOHMiB1RzIgc3aCIH%0AMmQiB0tkIgczZCIHMnMiBzVjOgxjc3JmX2lkIiVjMTdhODkzNzY3YjFlMGM5%0AOWY4M2M0NDM4ZDRiNDZlYyIKZmxhc2hJQzonQWN0aW9uQ29udHJvbGxlcjo6%0ARmxhc2g6OkZsYXNoSGFzaHsABjoKQHVzZWR7ADoIbWluaQY%3D--95c7ad8a9faa0b9f81be128c5263dab6b365a279
+  Parameters: {"authenticity_token"=>"c6f999833d521cac594e29b4be7fc0efe76185ad", "action"=>"deal", "controller"=>"card_counter"}
+Completed in 0.00179 (558 reqs/sec) | Rendering: 0.00003 (1%) | DB: 0.00000 (0%) | 200 OK [http://localhost/card_counter/deal]

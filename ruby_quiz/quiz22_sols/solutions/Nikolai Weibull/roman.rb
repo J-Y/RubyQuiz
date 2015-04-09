@@ -1,0 +1,1 @@
+require 'lisp/format';$stdin.each{|l|Lisp.format("~@R",l.to_i)}

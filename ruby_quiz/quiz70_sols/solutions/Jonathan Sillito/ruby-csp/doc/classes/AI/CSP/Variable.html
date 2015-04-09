@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Class: AI::CSP::Variable</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Class</strong></td>
+          <td class="class-name-in-header">AI::CSP::Variable</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../../../files/ai/csp/variable_rb.html">
+                ai/csp/variable.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        <tr class="top-aligned-row">
+            <td><strong>Parent:</strong></td>
+            <td>
+                Object
+            </td>
+        </tr>
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <h1>Variables</h1>
+<p>
+A variable and its domain. Also supports instantiating the variable and
+pruning values when propagating constraints.
+</p>
+<p>
+See <a href="../CSP.html">AI::CSP</a> for an overview and examples.
+</p>
+
+    </div>
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000025">domain_empty?</a>&nbsp;&nbsp;
+      <a href="#M000024">domain_size</a>&nbsp;&nbsp;
+      <a href="#M000019">each_value</a>&nbsp;&nbsp;
+      <a href="#M000020">each_value_with_index</a>&nbsp;&nbsp;
+      <a href="#M000018">instantiated?</a>&nbsp;&nbsp;
+      <a href="#M000017">new</a>&nbsp;&nbsp;
+      <a href="#M000021">prune</a>&nbsp;&nbsp;
+      <a href="#M000023">pruned?</a>&nbsp;&nbsp;
+      <a href="#M000022">unprune</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+    <div id="constants-list">
+      <h3 class="section-bar">Constants</h3>
+
+      <div class="name-list">
+        <table summary="Constants">
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">MAXINT</td>
+          <td>=</td>
+          <td class="context-item-value">2**16</td>
+          <td width="3em">&nbsp;</td>
+          <td class="context-item-desc">
+Just needs to be larger than the number of variables in problem
+
+</td>
+        </tr>
+        </table>
+      </div>
+    </div>
+
+
+
+    <div id="attribute-list">
+      <h3 class="section-bar">Attributes</h3>
+
+      <div class="name-list">
+        <table>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">domain</td>
+          <td class="context-item-value">&nbsp;[R]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">name</td>
+          <td class="context-item-value">&nbsp;[R]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">value</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        </table>
+      </div>
+    </div>
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Class methods</h3>
+
+      <div id="method-M000017" class="method-detail">
+        <a name="M000017"></a>
+
+        <div class="method-heading">
+          <a href="Variable.src/M000017.html" target="Code" class="method-signature"
+            onclick="popupCode('Variable.src/M000017.html');return false;">
+          <span class="method-name">new</span><span class="method-args">(name, domain)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+domain must respond to .to_a
+</p>
+        </div>
+      </div>
+
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000025" class="method-detail">
+        <a name="M000025"></a>
+
+        <div class="method-heading">
+          <a href="Variable.src/M000025.html" target="Code" class="method-signature"
+            onclick="popupCode('Variable.src/M000025.html');return false;">
+          <span class="method-name">domain_empty?</span><span class="method-args">(level=0)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000024" class="method-detail">
+        <a name="M000024"></a>
+
+        <div class="method-heading">
+          <a href="Variable.src/M000024.html" target="Code" class="method-signature"
+            onclick="popupCode('Variable.src/M000024.html');return false;">
+          <span class="method-name">domain_size</span><span class="method-args">(level=0)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000019" class="method-detail">
+        <a name="M000019"></a>
+
+        <div class="method-heading">
+          <a href="Variable.src/M000019.html" target="Code" class="method-signature"
+            onclick="popupCode('Variable.src/M000019.html');return false;">
+          <span class="method-name">each_value</span><span class="method-args">(level=0) {|value| ...}</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Calls provided block with each value that is valid at the specified level.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000020" class="method-detail">
+        <a name="M000020"></a>
+
+        <div class="method-heading">
+          <a href="Variable.src/M000020.html" target="Code" class="method-signature"
+            onclick="popupCode('Variable.src/M000020.html');return false;">
+          <span class="method-name">each_value_with_index</span><span class="method-args">(level=0) {|value,index if not pruned?(level, index)| ...}</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Calls provided block with each value (and its index) that is valid at the
+specified level.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000018" class="method-detail">
+        <a name="M000018"></a>
+
+        <div class="method-heading">
+          <a href="Variable.src/M000018.html" target="Code" class="method-signature"
+            onclick="popupCode('Variable.src/M000018.html');return false;">
+          <span class="method-name">instantiated?</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+        </div>
+      </div>
+
+      <div id="method-M000021" class="method-detail">
+        <a name="M000021"></a>
+
+        <div class="method-heading">
+          <a href="Variable.src/M000021.html" target="Code" class="method-signature"
+            onclick="popupCode('Variable.src/M000021.html');return false;">
+          <span class="method-name">prune</span><span class="method-args">(level, value_index)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Marks the value at value_index as pruned at the specified level.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000023" class="method-detail">
+        <a name="M000023"></a>
+
+        <div class="method-heading">
+          <a href="Variable.src/M000023.html" target="Code" class="method-signature"
+            onclick="popupCode('Variable.src/M000023.html');return false;">
+          <span class="method-name">pruned?</span><span class="method-args">(level, value_index=nil)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Returns true if the value at value_index has been pruned at this level (or
+at any previous levels). If no value_index is specified, returns true if
+any values have been pruned at the specified level.
+</p>
+        </div>
+      </div>
+
+      <div id="method-M000022" class="method-detail">
+        <a name="M000022"></a>
+
+        <div class="method-heading">
+          <a href="Variable.src/M000022.html" target="Code" class="method-signature"
+            onclick="popupCode('Variable.src/M000022.html');return false;">
+          <span class="method-name">unprune</span><span class="method-args">(level)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Unprunes all values that were pruned at specified level or at higher
+(deeper) levels.
+</p>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

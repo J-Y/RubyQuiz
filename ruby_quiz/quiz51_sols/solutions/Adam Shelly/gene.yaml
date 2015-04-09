@@ -1,0 +1,131 @@
+--- !ruby/object:Gene
+drules:
+  :rule_noPartners:
+    - -0.3
+    - -0.3
+  :rule_useless2me:
+    - -0.5
+    - 0.1
+  :rule_wantFromDiscard:
+    - 0.3
+    - 0.5
+  :rule_useless2him:
+    - -0.2
+    - 0.1
+  :rule_belowLowestPlayable:
+    - -0.2
+    - 0.0
+  :rule_useful2him:
+    - 0.4
+    - 0.5
+  :rule_dontDiscardForever:
+    - 0.5
+    - 1
+  :rule_useful2me:
+    - 0.3
+    - 0.424953141133301
+  :rule_singleton:
+    - -0.269603526452556
+    - -0.1
+  :rule_heHasPlayed:
+    - 0.1
+    - 0.3
+name: hgklnqu
+parent: hgklnq
+prules:
+  :rule_highestInHand:
+    - -0.1
+    - -0.0132171112811193
+  :rule_investments:
+    - 0.10915231165709
+    - -0.214938909909688
+  :rule_suitStarted:
+    - 0.7
+    - 0.9
+  :rule_group15:
+    - 0.6
+    - -0.338061462133191
+  :rule_inSequence:
+    - 0.654255492263474
+    - 0.905814079008997
+  :rule_heHasPlayed10:
+    - -0.2
+    - 0.0
+  :rule_2followsInvest:
+    - 0.3
+    - 0.5
+  :rule_onInvestments:
+    - 0.5
+    - 0.7
+  :rule_closeToPrevious:
+    - 0.571291934791952
+    - 0.5
+  :rule_group20:
+    - 0.7
+    - -0.24812678352464
+  :rule_lowCard:
+    - 0.1
+    - 0.0
+  :rule_heHasPlayed20:
+    - -0.3
+    - 0.0
+  :rule_multiplier2:
+    - 0.4
+    - 0.8
+  :rule_holdingInvestments:
+    - -0.458828900489379
+    - 0.0
+  :rule_finishGame:
+    - 0.0
+    - 2.06754154443775
+  :rule_handNegative:
+    - 0.5
+    - 0.9
+  :rule_group25:
+    - 0.9
+    - -0.17002231310729
+  :rule_lowCards:
+    - 0.253758069175279
+    - 0.0
+  :rule_possibleBelow:
+    - -0.2
+    - -0.0697354671487119
+  :rule_multiplier3:
+    - 0.649637156224344
+    - 1.07591888221214
+  :rule_investmentWithHope:
+    - 0.726016686472576
+    - 0.425265068525914
+  :rule_total20:
+    - 0.35
+    - 1.0
+  :rule_mustPlays:
+    - -0.32988673124928
+    - 1.0
+  :rule_highCard:
+    - -0.3
+    - 0.1
+  :rule_investmentWithoutHope:
+    - -0.6
+    - -1.0
+  :rule_possibleManyBelow:
+    - -0.46776403458789
+    - -0.1
+  :rule_onUnplayed:
+    - -0.819403649667397
+    - -1.0
+  :rule_total25:
+    - 0.6
+    - 1.0
+  :rule_highCards:
+    - -0.2
+    - 0.2
+  :rule_lowerInHand:
+    - -0.88520639540273
+    - -0.4
+  :rule_heHasPlayed:
+    - -0.14072827748023
+    - 0.0
+  :rule_group10:
+    - 0.61925460502971
+    - -0.4

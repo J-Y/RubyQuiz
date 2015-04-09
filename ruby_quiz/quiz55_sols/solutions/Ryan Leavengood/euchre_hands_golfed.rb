@@ -1,0 +1,1 @@
+a=$<.read.split("\n");s=%w{d c h s};c='AKQJT9';t=a.shift;u=(t[0]+32).chr;i=s.index(u);v=s[(i+2)%4];w=[1];i.upto(i+3){|j|w<<s[j%4]};puts t,a.sort_by{|k|k=~/(J#{u})|(J#{v})/?$1?0:1:w.index(k[1,1])*10+c.index(k[0,1])}

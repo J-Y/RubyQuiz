@@ -1,0 +1,5 @@
+require 'soap/rpc/driver'
+
+driver = SOAP::RPC::Driver.new( 'http://services.xmethods.com/soap', 'urn:xmethods-delayed-quotes' )
+driver.add_method( 'getQuote', 'a_string' )
+driver.getQuote('GOOG')

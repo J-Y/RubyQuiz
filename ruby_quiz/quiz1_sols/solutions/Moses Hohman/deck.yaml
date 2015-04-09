@@ -1,0 +1,6 @@
+# Array of numbers (1 through 54), ranges of those numbers, 
+# and "A" or "B" that describes the order of the keyed deck
+---
+- 25
+- !ruby/range 1..24
+- !ruby/range 26..54

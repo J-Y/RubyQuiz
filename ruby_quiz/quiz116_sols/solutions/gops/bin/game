@@ -1,0 +1,39 @@
+#!/usr/bin/env ruby -w
+
+require File.join(File.dirname(__FILE__), *%w[.. lib gops])
+include GOPS
+
+unless ARGV.size == 2
+  puts "Usage:  #{File.basename($PROGRAM_NAME)} " +
+       "BOT_1[:arg[:...]] BOT_2[:arg[:...]]"
+  exit
+end
+
+CARD = %w[Nocard, Ace] + (2..10).to_a + %w[Jack Queen King]
+game = Game.new(*ARGV.map { |file| Player.new(*file.split(":")) })
+                         
+puts "GOPS - Game of Pure Strategy"
+puts "============================"
+puts
+game.play do |round, bid, *plays|
+  puts "Competition card:  #{CARD[bid]}"
+  round.players.each_with_index do |player, i|
+    puts "%-12s bid:  %s" % [player.name, CARD[plays[i]]]
+  end
+  winner = if    plays.first > plays.last  then round.players.first.name
+           elsif plays.last  > plays.first then round.players.last.name
+           else                                 "Neither player"
+           end
+  puts "=> #{winner} wins the card."
+  puts
+end
+
+puts "Final Score"
+puts "-----------"
+game.players.each { |player| puts "%s:  %s" % [player.name, player.score] }
+if won = game.winner
+  puts "=> #{won.name} won the game."
+else
+  puts "=> The game was a tie."
+end       
+puts 

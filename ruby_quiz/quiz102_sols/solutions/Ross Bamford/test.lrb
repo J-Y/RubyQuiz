@@ -1,0 +1,95 @@
+This is a literate ruby test file. You can run the whole file
+by simply running it through lrb, or individual tests by 
+supplying the block number to execute. In that case though, 
+you'll have to 
+
+  > require 'test/unit'
+
+yourself with a command like:
+
+  lrb test.lrb 2 -rtest/unit
+
+Test numbers are 1-based (zero is that require 'test/unit' 
+above) You can have lrb show the code it's about to execute 
+using e.g:
+
+  lrb test.lrb -d
+
+So, here's the first test.
+
+\begin{code}
+class TC_LRB < Test::Unit::TestCase
+  def test_01
+    assert true
+  end
+end
+\end{code}
+
+We need to make sure we can \begin{code}class TC_LRB < Test::Unit::TestCase
+def test_02
+  assert true
+end
+end
+\end{code} anywhere on a line.
+
+Also, we need to make sure we can escape \\begin{code} raise "Not code!"
+\\end{code} both within and at start of a line.
+
+Okay, let's just check that lines starting with > aren't treated as
+single line blocks if they're inside a \begin...\end block.
+
+  \begin{code}
+  class TC_LRB < Test::Unit::TestCase
+    def test_03
+      s = "
+        > This is not a line of code
+        > And wouldn't compile on it's own
+        "
+
+      e="\n> This is not a line of code\n> And wouldn't compile on it's own\n"
+  
+      assert_equal e, s.gsub(/\n\s*/, "\n")
+    end
+  end
+      \end{code}
+
+Make sure lrb_require works properly:
+
+\begin{code}
+require 'lrb'
+
+class TC_LRB < Test::Unit::TestCase
+  def test_04
+    assert_raise(NoMethodError) { meth_one() }
+   
+    lrb_require('testreq', 0)
+
+    assert_equal 1, meth_one()
+
+    assert_raise(NoMethodError) { meth_two() }
+    
+    lrb_require('testreq', 1)
+
+    assert_equal 2, meth_two()
+  end
+end
+\end{code}
+
+Finally, make sure lrb_eval works.
+
+\begin{code}
+require 'lrb'
+
+class TC_LRB < Test::Unit::TestCase
+  def test_06
+    lrb_require('testreq', 2)
+
+    # does it's own assertions
+    meth_three()
+  end
+end
+\end{code}
+
+That's it. Now just run this test through lrb.
+
+ 

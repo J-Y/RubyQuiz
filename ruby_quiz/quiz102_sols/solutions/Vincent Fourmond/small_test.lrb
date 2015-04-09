@@ -1,0 +1,52 @@
+This file contains a small test for the literate ruby
+quiz. 
+
+It is meant to be run from the command line with some arguments.
+Here, we simply begin with displaying the command-line arguments
+
+p ARGV
+
+Who are we ??
+
+puts "Here is #{$0}"
+
+Then, just to show, we require the file required.lrb
+require 'required'
+
+We complain if there is not arguments on the command-line
+puts "It will be more interesting if "+
+"you actually provide #$0 with command-line arguments" if ARGV.empty? 
+
+Then, I thought it would be interesting to make a small report about
+letters used in the command-line arguments:
+\begin{code}
+letters = {}
+for letter in ARGV.join('').split('')
+  if letters.has_key?(letter)
+    letters[letter] += 1
+  else
+    letters[letter] = 1
+  end
+end
+
+for letter in letters.keys.sort
+  puts "Letter #{letter} used #{letters[letter]} times"
+end
+\end{code}
+
+And just for fun, we will show that we can use \end{code}
+right in the middle of some code:
+\begin{code}
+puts <<'EOT'
+You see that we can use
+@@\end{code}
+even alone on its line !!
+EOT
+\end{code}
+
+I believe this should suffice as a demonstration.
+Just a test file to show that code can be required fine
+with rweb:
+\begin{code}
+puts "This is required literate code !"
+\end{code}

@@ -1,0 +1,43 @@
+#!/usr/local/bin/ruby
+
+# Idea of the algorithm:
+# Let X_1, ..., X_m be random variables representing a
+# uniform sampling of the interval [0, n[, with
+# X_1 <= X_2 <= ... <= X_m.
+# One can show that the discrete density of X_1 is the function
+# p(k) = m/n * \prod_{i=0}^{k-1} (n-m-i)/(n-1-i).
+# A random integer with this law is calculated, giving a value
+# of, say, k_1.
+# With respect to the conditional probability of {X_1 = k_1},
+# (X_2, ..., X_n) is a uniform sampling of the interval [k_1 + 1, n[,
+# hence the same argument can be applied, continuing in this fashion 
+# until all m members have been produced.
+
+def sample(m, n)
+  c = 0
+  i = rand
+  p = ps = m / n.to_f
+  delta = n - m
+  m = m.to_f
+
+  while n>0
+    n-=1
+    if ps > i
+      i = rand
+      m -= 1
+      p = ps = m / n
+      puts c
+    else
+      p = p * delta / n
+      ps += p
+      delta -= 1
+    end
+
+    c += 1
+  end
+end
+
+if ARGV.size == 2
+  m, n = ARGV.map(&method(:Integer))
+  sample(m, n)
+end

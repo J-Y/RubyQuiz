@@ -1,0 +1,1 @@
+a=$<.readlines;s='dchs';c='AKQJT9';t=a.shift;u=(t[0]+32).chr;i=s.index(u);v=s[i-2].chr;puts t,a.sort_by{|k|(k=~/J[#{u+v}]/?0:50)+(s.index(k[1])-i)%4*10+c.index(k[0])}

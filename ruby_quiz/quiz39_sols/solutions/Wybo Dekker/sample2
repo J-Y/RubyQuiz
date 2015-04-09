@@ -1,0 +1,22 @@
+#!/usr/local/bin/ruby
+
+STDOUT.sync = false
+GC.disable
+
+num,ceil = ARGV.map { |s| s.to_i }
+keep = {}
+
+# only slightly slower but a lot shorter than rolling out:
+num.times do 
+  keep[rand(ceil)] = true
+end
+
+while keep.length < num
+    keep[rand(ceil)] = true
+end
+
+found = keep.keys
+# keeping things in place is faster:
+found.sort!
+found.map! { |i| i.to_s }
+puts found.join("\n")

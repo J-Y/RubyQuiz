@@ -1,0 +1,66 @@
+=begin rubyweb
+=begin_stream contains_chunk
+The stream contains_chunk contains the chunk This_is_a_chunk
+=begin_chunk This_is_a_chunk
+This is the chunk This_is_a_chunk
+=end_chunk This_is_a_chunk
+The stream contains_chunk ends here.
+=end_stream contains_chunk
+=begin_chunk chunk_contains_stream
+This is chunk_contains_stream
+=begin_stream uses_chunk
+This stream uses_chunk uses a chunk (This_is_a_chunk) twice
+=use_chunk This_is_a_chunk
+=use_chunk This_is_a_chunk
+end of stream uses_chunk
+=end_stream uses_chunk
+here ends chunk_contains_stream
+=end_chunk chunk_contains_stream
+
+=begin_chunk chunk_uses_stream
+this is chunk_uses_stream
+=use_stream uses_chunk
+here ends chunk_uses_stream
+=end_chunk chunk_uses_stream
+
+=begin_chunk chunk_contains_code
+=include_code
+=end rubyweb
+
+print "hello!"
+
+=begin rubyweb
+=end_chunk chunk_contains_code
+
+=begin_chunk include1
+=include example.inc
+=end_chunk include1
+
+=begin_stream stream_contains_code
+=include_code
+=end rubyweb
+
+print "greetings!"
+
+=begin rubyweb
+=end_stream stream_contains_code
+
+=begin_stream all_streams
+=use_stream contains_chunk
+=use_stream uses_chunk
+=use_chunk chunk_uses_stream
+=use_chunk chunk_contains_stream
+=use_chunk chunk_contains_code
+=use_stream stream_contains_code
+=use_chunk include1
+=end_stream all_streams
+
+=display_stream all_streams
+=display_chunk This_is_a_chunk
+=output_stream uses_chunk pimple1.zit
+=output_chunk This_is_a_chunk pimple2.zit
+=pipe_stream uses_chunk tr -d "aeiouAEIOU"
+=pipe_chunk This_is_a_chunk tr -c -d "aeiouAEIOU"
+=end rubyweb
+
+

@@ -1,0 +1,307 @@
+(setf *objects* '(whiskey-bottle bucket frog chain))
+### ^ Lisp >>> Ruby v ###
+$objects = %w{whiskey_bottle bucket frog chain}
+
+(setf *map* '((living-room (you are in the living-room of a wizards house. there is a wizard snoring loudly on the couch.)
+                           (west door garden)  
+                           (upstairs stairway attic))
+              (garden (you are in a beautiful garden. there is a well in front of you.)
+                      (east door living-room))
+              (attic (you are in the attic of the wizards house. there is a giant welding torch in the corner.)
+                     (downstairs stairway living-room))))
+### ^ Lisp >>> Ruby v ###
+$map = { "living_room" => [ "You are in the living_room of a wizard's house. There is a wizard snoring loudly on the couch.",
+                            %w{west door garden},
+                            %w{upstairs stairway attic} ],
+         "garden"      => [ "You are in a beautiful garden. There is a well in front of you.",
+                            %w{east door living_room} ],
+         "attic"       => [ "You are in the attic of the wizard's house. There is a giant welding torch in the corner.",
+                            %w{downstairs stairway living_room} ] }
+
+(setf *object-locations* '((whiskey-bottle living-room)
+                           (bucket living-room)
+                           (chain garden)
+                           (frog garden)))
+### ^ Lisp >>> Ruby v ###
+$object_locations = { "whiskey_bottle" => "living_room",
+                      "bucket"         => "living_room",
+                      "chain"          => "garden",
+                      "frog"           => "garden" }
+
+(setf *location* 'living-room)
+### ^ Lisp >>> Ruby v ###
+$location = "living_room"
+
+(defun describe-location (location map)
+  (second (assoc location map)))
+### ^ Lisp >>> Ruby v ###
+def describe_location( location, map )
+  map[location].first
+end
+
+(describe-location 'living-room *map*)
+### ^ Lisp >>> Ruby v ###
+describe_location "living_room", $map
+
+(defun describe-path (path)
+  `(there is a ,(second path) going ,(first path) from here.))
+### ^ Lisp >>> Ruby v ###
+def describe_path( path )
+  "There is a #{path[1]} going #{path[0]} from here."
+end
+
+(describe-path '(west door garden))
+### ^ Lisp >>> Ruby v ###
+describe_path %w{west door garden}
+
+(defun describe-paths (location map)
+  (apply #'append (mapcar #'describe-path (cddr (assoc location map)))))
+### ^ Lisp >>> Ruby v ###
+def describe_paths( location, map )
+  map[location][1..-1].map { |p| describe_path(p) }.join("  ")
+end
+
+(describe-paths 'living-room *map*)
+### ^ Lisp >>> Ruby v ###
+describe_paths "living_room", $map
+
+(defun is-at (obj loc obj-loc)
+  (eq (second (assoc obj obj-loc)) loc))
+### ^ Lisp >>> Ruby v ###
+def is_at?( object, location, object_locations )
+  location == object_locations[object]
+end
+
+(is-at 'whiskey-bottle 'living-room *object-locations*)
+### ^ Lisp >>> Ruby v ###
+is_at? "whiskey_bottle", "living_room", $object_locations
+
+(defun describe-floor (loc objs obj-loc)
+  (apply #'append (mapcar (lambda (x)
+                            `(you see a ,x on the floor.))
+                          (remove-if-not (lambda (x)
+                                           (is-at x loc obj-loc))
+                                         objs))))
+### ^ Lisp >>> Ruby v ###
+def describe_floor( location, object_locations )
+  object_locations.select { |obj, loc| loc == location }.map do |obj, loc|
+    "You see a #{obj} on the floor."
+  end.join("  ")
+end
+
+(describe-floor 'living-room *objects* *object-locations*)
+### ^ Lisp >>> Ruby v ###
+describe_floor "living_room", $object_locations
+
+(defun look ()
+  (append (describe-location *location* *map*)
+          (describe-paths *location* *map*)
+          (describe-floor *location* *objects* *object-locations*)))
+### ^ Lisp >>> Ruby v ###
+def look
+  [ describe_location($location, $map),
+    describe_paths($location, $map),
+    describe_floor($location, $object_locations) ].join("  ").strip
+end
+
+(look)
+### ^ Lisp >>> Ruby v ###
+look
+
+(defun walk-direction (direction)
+  (let ((next (assoc direction (cddr (assoc *location* *map*)))))
+    (cond (next (setf *location* (third next)) (look))
+          (t '(you cant go that way.)))))
+### ^ Lisp >>> Ruby v ###
+def walk_direction( direction )
+  if to = $map[$location][1..-1].assoc(direction)
+    $location = to.last
+    look
+  else
+    "You can't go that way."
+  end
+end
+
+(walk-direction 'west)
+### ^ Lisp >>> Ruby v ###
+walk_direction "west"
+
+(defmacro defspel (&rest rest) `(defmacro ,@rest))
+### ^ Lisp >>> Ruby v ###
+$stringify = %w{west east upstairs downstairs}
+def method_missing( method, *args, &block )
+  if $stringify.include? method.to_s
+    method.to_s
+  else
+    "I don't know the word '#{method}'."
+  end
+end
+
+(defspel walk (direction)
+  `(walk-direction ',direction)
+### ^ Lisp >>> Ruby v ###
+alias walk walk_direction
+
+(walk east)
+### ^ Lisp >>> Ruby v ###
+walk east
+
+(defun pickup-object (object)
+  (cond ((is-at object *location* *object-locations*) (push (list object 'body) *object-locations*)
+                                                      `(you are now carrying the ,object))
+        (t '(you cannot get that.))))
+### ^ Lisp >>> Ruby v ###
+def pickup_object( object )
+  if is_at? object, $location, $object_locations
+    $object_locations[object] = "body"
+    "You are now carrying #{object}."
+  else
+    "You cannot get that."
+  end
+end
+
+(defspel pickup (object)
+  `(pickup-object ',object))
+### ^ Lisp >>> Ruby v ###
+$stringify.push(*$objects)
+alias pickup pickup_object
+
+(pickup whiskey-bottle)
+### ^ Lisp >>> Ruby v ###
+pickup whiskey_bottle
+
+(defun inventory ()
+  (remove-if-not (lambda (x)
+                   (is-at x 'body *object-locations*))
+                 *objects*))
+### ^ Lisp >>> Ruby v ###
+def inventory
+  $objects.select { |obj| $object_locations[obj] == "body" }
+end
+
+(defun have (object)
+  (member object (inventory)))
+### ^ Lisp >>> Ruby v ###
+def have?( object )
+  inventory.include? object
+end
+
+(setf *chain-welded* nil)
+### ^ Lisp >>> Ruby v ###
+$chain_welded = nil
+
+(defun weld (subject object)
+  (cond ((and (eq *location* 'attic)
+              (eq subject 'chain)
+              (eq object 'bucket)
+              (have 'chain)
+              (have 'bucket)
+              (not *chain-welded*))
+         (setf *chain-welded* 't)
+         '(the chain is now securely welded to the bucket.))
+        (t '(you cannot weld like that.))))
+### ^ Lisp >>> Ruby v ###
+def weld( *objects )
+  if $location == "attic" and not $chain_welded and
+     objects.all? { |obj| have? obj } and objects.sort == %w{bucket chain}
+    $chain_welded = true
+    "The chain is now securely welded to the bucket."
+  else
+    "You cannot weld like that."
+  end
+end
+
+(weld 'chain 'bucket)
+### ^ Lisp >>> Ruby v ###
+weld "chain", "bucket"
+
+(setf *bucket-filled* nil)
+### ^ Lisp >>> Ruby v ###
+$bucket_filled = nil
+
+(defun dunk (subject object)
+  (cond ((and (eq *location* 'garden)
+              (eq subject 'bucket)
+              (eq object 'well)
+              (have 'bucket)
+              *chain-welded*)
+         (setf *bucket-filled* 't) '(the bucket is now full of water))
+        (t '(you cannot dunk like that.))))
+### ^ Lisp >>> Ruby v ###
+def dunk( *objects )
+  if $location == "garden" and $chain_welded and objects.sort == %w{bucket well}
+    $bucket_filled = true
+    "The bucket is now full of water."
+  else
+    "You cannot dunk like that."
+  end
+end
+
+(defspel game-action (command subj obj place &rest rest)
+  `(defspel ,command (subject object)
+     `(cond ((and (eq *location* ',',place)
+                  (eq ',subject ',',subj)
+                  (eq ',object ',',obj)
+                  (have ',',subj))
+             ,@',rest)
+            (t '(i cant ,',command like that.)))))
+### ^ Lisp >>> Ruby v ###
+def game_action( action, subject, object, location, &block )
+  $stringify << object unless $stringify.include? object
+  self.class.send(:define_method, action) do |sub, obj|
+    begin
+      if $location == location and 
+         subject == sub and object == obj and have?(subject)
+        block[sub, obj]
+      else
+        raise
+      end
+    rescue
+      "You can't #{action} like that."
+    end
+  end
+end
+
+(game-action weld chain bucket attic
+             (cond ((and (have 'bucket) (setf *chain-welded* 't))
+                    '(the chain is now securely welded to the bucket.))
+                   (t '(you do not have a bucket.))))
+### ^ Lisp >>> Ruby v ###
+game_action(*%w{weld chain bucket attic}) do |subject, object|
+  have?(object) or raise
+  $chain_welded = true
+  "The chain is now securely welded to the bucket."
+end
+
+(weld chain bucket)
+### ^ Lisp >>> Ruby v ###
+weld chain, bucket
+
+(game-action dunk bucket well garden
+             (cond (*chain-welded* (setf *bucket-filled* 't) '(the bucket is now full of water))
+                   (t '(the water level is too low to reach.))))
+### ^ Lisp >>> Ruby v ###
+game_action(*%w{dunk bucket well garden}) do |subject, object|
+  $chain_welded or raise
+  $bucket_filled = true
+  "The bucket is now full of water."
+end
+
+(game-action splash bucket wizard living-room
+             (cond ((not *bucket-filled*) '(the bucket has nothing in it.))
+                   ((have 'frog) '(the wizard awakens and sees that you stole his frog. 
+                                   he is so upset he banishes you to the 
+                                   netherworlds- you lose! the end.))
+                   (t '(the wizard awakens from his slumber and greets you warmly. 
+                        he hands you the magic low-carb donut- you win! the end.))))
+### ^ Lisp >>> Ruby v ###
+game_action(*%w{splash bucket wizard living_room}) do |subject, object|
+  $bucket_filled or raise
+  if have? "frog"
+    "The wizard awakens and sees that you stole his frog.  " +
+    "He is so upset he banishes you to the netherworlds--you lose!  The end."
+  else
+    "The wizard awakens from his slumber and greets you warmly.  " +
+    "He hands you the magic low-carb donut--you win!  The end."
+  end
+end

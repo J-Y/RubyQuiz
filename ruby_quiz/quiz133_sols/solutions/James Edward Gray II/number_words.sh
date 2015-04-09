@@ -1,0 +1,1 @@
+ruby -sne 'print if $_.downcase =~ /\A[\d\s#{("a".."z").to_a.join[0...($size.to_i - 10)]}]+\Z/' -- -size=12 /usr/share/dict/words

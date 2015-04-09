@@ -1,0 +1,129 @@
+Extract method calls (http://www.theserverside.com/articles/article.tss?l=AspectOrientedRefactoringPart1)
+
+Consider a cache that needs to be kept up to date.
+For example, primitives in a complex vector scene:
+redrawing the scene takes a relatively long time,
+degrading framerate, but not redrawing the scene
+when something changes is even worse. So I need
+to detect when the cached rendering is outdated.
+
+To do this, I keep track of the time of the last
+rendering, and compare the vector object mtimes
+to it. If a mtime is more recent than the last render
+time, the scene needs to be redrawn.
+
+
+Original code:
+
+class VectorObject
+  attr_reader :x, :y, :z, :path, :stroke, :fill, :mtime
+
+  def x= x
+    @x = x
+    @mtime = Time.now
+  end
+
+  def y= y
+    @y = y
+    @mtime = Time.now
+  end
+
+  def z= z
+    @z = z
+    @mtime = Time.now
+  end
+
+  def path= pt
+    case pt
+    when Path
+      @path = pt
+    when Array
+      @path = Path.new(pt)
+    end
+    @mtime = Time.now
+  end
+
+  ... and so on for stroke and fill
+
+end
+
+
+Detecting repetition, it makes code fragile and a pain to edit.
+First pass, refactor `@mtime = Time.now` out to a method:
+
+class VectorObject
+  attr_reader :x, :y, :z, :path, :stroke, :fill, :mtime
+  def touch!
+    @mtime = Time.now
+  end
+
+  def x= x
+    @x = x
+    touch!
+  end
+
+  ... similarly for other accessors
+end
+
+
+A bit better. Still quite unwieldy though.
+But! Metaprogramming to the rescue!
+Alias the original methods to _non_touching and
+replace them with a version that calls the original
+method, followed by touch!, and returns what the
+original method returned:
+
+class VectorObject
+  def self.touching! *mnames
+    mnames.each{|mn|
+      alias_method "#{mn}_non_touching", mn
+      define_method(mn){|*args|
+        rv = __send__ "#{mn}_non_touching", *args
+        touch!
+        rv
+      }
+    }
+  end
+
+  attr_reader :mname
+  attr_accessor :x, :y, :z, :path, :stroke, :fill
+  touching! :x=, :y=, :z=, :path=, :stroke=, :fill=
+end
+
+
+Finally, move #touching! out from the class and into a module:
+
+module Touchable
+  def touching! *mnames
+    mnames.each{|mn|
+      alias_method "#{mn}_non_touching", mn
+      define_method(mn){|*args|
+        rv = __send__ "#{mn}_non_touching", *args
+        touch!
+        rv
+    }
+  end
+end
+
+
+class VectorObject
+extend Touchable
+  attr_reader :mname
+  attr_accessor :x, :y, :z, :path, :stroke, :fill
+
+  def path= pt
+    case pt
+    when Path
+      @path = pt
+    when Array
+      @path = Path.new(pt)
+    end
+  end
+
+  touching! :x=, :y=, :z=, :path=, :stroke=, :fill=
+end
+
+
+Now we can use attr_accessor for creating
+the simple methods, override #path= with
+a magical setter, and not type touch! a lot.

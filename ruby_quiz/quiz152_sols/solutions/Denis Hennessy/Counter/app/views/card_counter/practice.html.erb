@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/2000/REC-xhtml1-20000126/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <%= javascript_include_tag :defaults %>
+  <title>Practice Card Counting</title>
+  <script type="text/javascript">
+  //<![CDATA[
+  paused = false;
+  function pause() {
+    paused = !paused;
+    if (paused) {
+      $('count').setStyle('visibility: visible');
+      $('pause').update('Continue')
+    } else {
+      $('pause').update('Pause')
+    }
+  }
+  //]]>
+  </script>
+</head>
+<body>
+  <a id='pause' href="#" onClick="pause()">Pause</a>
+  <div id="cards"></div>
+
+  <%= periodically_call_remote(
+  :condition => "paused == false",
+  :update => "cards",
+  :frequency => session[:delay],
+  :url => { :action => "deal" }) %>
+</body>
+</html>

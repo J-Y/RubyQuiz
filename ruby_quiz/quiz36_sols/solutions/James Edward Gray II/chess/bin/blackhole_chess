@@ -1,0 +1,141 @@
+#!/usr/local/bin/ruby -w
+
+# blackhole_chess
+#
+#  Created by James Edward Gray II on 2005-06-20.
+#  Copyright 2005 Gray Productions. All rights reserved.
+
+require "chess"
+
+# An enhanced chess board for playing Blackhole Chess.
+class BlackholeChess < Chess::Board
+	# 
+	# A general purpose test to see if a _test_ square is between _start_ and
+	# _finish_ squares, on a rank, file or diagonal.
+	# 
+	def self.between?( start, finish, test )
+		test_rank,   test_file   = test[1, 1].to_i,   test[0]
+		start_rank,  start_file  = start[1, 1].to_i,  start[0]
+		finish_rank, finish_file = finish[1, 1].to_i, finish[0]
+		
+		( test_rank == start_rank and test_rank == finish_rank and
+		  test_file >= [start_file, finish_file].min and
+		  test_file <= [start_file, finish_file].max ) or
+		( test_file == start_file and test_file == finish_file and
+		  test_rank >= [start_rank, finish_rank].min and
+		  test_rank <= [start_rank, finish_rank].max ) or
+		( (start_file - finish_file).abs == (start_rank - finish_rank).abs and 
+		  (start_file - test_file).abs == (start_rank - test_rank).abs and
+		  (test_file - finish_file).abs == (test_rank - finish_rank).abs and  
+		  test_file >= [start_file, finish_file].min and
+		  test_file <= [start_file, finish_file].max and
+		  test_rank >= [start_rank, finish_rank].min and
+		  test_rank <= [start_rank, finish_rank].max )
+	end
+
+	# End the game if a King goes missing.
+	def in_checkmate?( who = @turn )
+		if find { |(s, pc)| pc and pc.color == who and pc.is_a? Chess::King }
+			super
+		else
+			true
+		end
+	end
+	
+	# Eliminate any piece moving through the blackholes.
+	def move( from_square, to_square, promote_to = nil )
+		if self.class.between?(from_square, to_square, "d5") or
+		   self.class.between?(from_square, to_square, "f5")
+			@squares[from_square] = nil
+			next_turn
+		else
+			super
+		end
+		
+		self
+	end
+	
+	# Board display with two added blackholes.
+	def to_s(  )
+		super.sub( /^(5\s+\|(?:[^|]+\|){3})[^|]+\|([^|]+\|)[^|]+\|/,
+		           "\\1 * |\\2 * |" )
+	end
+end
+
+board = BlackholeChess.new
+
+puts
+puts "Welcome to Ruby Quiz Blackhole Chess."
+
+# player move loop
+loop do
+	# show board
+	puts
+	puts board
+	puts
+
+	# watch for end conditions
+	if board.in_checkmate?
+		puts "Checkmate!  " +
+		     "It's #{board.turn == :white ? 'Black' : 'White'}'s game."
+		puts
+		break
+	elsif board.in_checkmate?(@turn == :white ? :black : :white)
+		puts "Checkmate!  It's #{board.turn}'s game."
+		puts
+		break
+	elsif board.in_stalemate?
+		puts "Stalemate."
+		puts
+		break
+	elsif board.in_check?
+		puts "Check."
+	end
+
+	# move input loop
+	move = nil
+	loop do
+		print "#{board.turn.to_s.capitalize}'s Move (from to):  "
+		move = $stdin.gets.chomp
+		
+		# validate move
+		moves = board.moves
+		if move !~ /^\s*([a-h][1-8])\s*([a-h][1-8])\s*$/
+			puts "Invalid move format.  Use from to.  (Example:  e2 e4.)"
+		elsif board[$1].nil?
+			puts "No piece on that square."
+		elsif board[$1].color != board.turn
+			puts "That's not your piece to move."
+		elsif board.in_check? and ( (m = moves.assoc($1)).nil? or
+			                        not m.last.include?($2) )
+			puts "You must move out of check."
+		elsif not (board[$1].captures + board[$1].moves).include?($2)
+			puts "That piece can't move to that square."
+		elsif ((m = moves.assoc($1)).nil? or not m.last.include?($2))
+			puts "You can't move into check."
+		else
+			break
+		end
+	end
+	
+	# make move, with promotion if needed
+	if board[$1].is_a?(Chess::Pawn) and $2[1, 1] == "8"
+		from, to = $1, $2
+
+		print "Promote to (k, b, r, or q)?  "
+		promote = $stdin.gets.chomp
+		
+		case promote.downcase[0, 1]
+		when "k"
+			board.move($1, $2, Chess::Knight)
+		when "b"
+			board.move($1, $2, Chess::Bishop)
+		when "r"
+			board.move($1, $2, Chess::Rook)
+		else
+			board.move($1, $2, Chess::Queen)
+		end
+	else
+		board.move($1, $2)
+	end
+end

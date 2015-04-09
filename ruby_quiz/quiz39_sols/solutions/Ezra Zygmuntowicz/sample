@@ -1,0 +1,8 @@
+#!/usr/local/bin/ruby
+members, limit, index = ARGV[0].to_i, ARGV[1].to_i, 0
+member_range = limit / members
+0.upto(members-1) do
+  res = rand member_range
+  puts res + index
+  index += member_range
+end

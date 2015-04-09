@@ -1,0 +1,105 @@
+#!/usr/local/bin/ruby -w
+
+# gun_chess
+#
+#  Created by James Edward Gray II on 2005-06-20.
+#  Copyright 2005 Gray Productions. All rights reserved.
+
+require "chess"
+
+# An enhanced chess board for playing Gun Chess.
+class GunChess < Chess::Board
+	# Returns a numerical count of all the pieces on the board.
+	def count_pieces(  )
+		find_all { |(square, piece)| piece }.size
+	end
+	
+	# Make standard chess moves, save that capturing pieces do not move.
+	def move( from_square, to_square, promote_to = nil )
+		old_count = count_pieces
+		
+		super    # normal chess move
+		
+		if count_pieces < old_count         # if it was a capture...
+			move(to_square, from_square)    # move the piece back
+			next_turn                       # fix the extra turn change
+		end
+		
+		self
+	end
+end
+
+board = GunChess.new
+
+puts
+puts "Welcome to Ruby Quiz Gun Chess."
+
+# player move loop
+loop do
+	# show board
+	puts
+	puts board
+	puts
+
+	# watch for end conditions
+	if board.in_checkmate?
+		puts "Checkmate!  " +
+		     "It's #{board.turn == :white ? 'Black' : 'White'}'s game."
+		puts
+		break
+	elsif board.in_stalemate?
+		puts "Stalemate."
+		puts
+		break
+	elsif board.in_check?
+		puts "Check."
+	end
+
+	# move input loop
+	move = nil
+	loop do
+		print "#{board.turn.to_s.capitalize}'s Move (from to):  "
+		move = $stdin.gets.chomp
+		
+		# validate move
+		moves = board.moves
+		if move !~ /^\s*([a-h][1-8])\s*([a-h][1-8])\s*$/
+			puts "Invalid move format.  Use from to.  (Example:  e2 e4.)"
+		elsif board[$1].nil?
+			puts "No piece on that square."
+		elsif board[$1].color != board.turn
+			puts "That's not your piece to move."
+		elsif board.in_check? and ( (m = moves.assoc($1)).nil? or
+			                        not m.last.include?($2) )
+			puts "You must move out of check."
+		elsif not (board[$1].captures + board[$1].moves).include?($2)
+			puts "That piece can't move to that square."
+		elsif ((m = moves.assoc($1)).nil? or not m.last.include?($2))
+			puts "You can't move into check."
+		else
+			break
+		end
+	end
+	
+	# make move, with promotion if needed
+	if board[$1].is_a?(Chess::Pawn) and $2[1, 1] == "8" and
+	   $1[0] == $2[0]    # an extra check to ensure it's a move, not a capture
+		from, to = $1, $2
+
+		print "Promote to (k, b, r, or q)?  "
+		promote = $stdin.gets.chomp
+		
+		case promote.downcase[0, 1]
+		when "k"
+			board.move($1, $2, Chess::Knight)
+		when "b"
+			board.move($1, $2, Chess::Bishop)
+		when "r"
+			board.move($1, $2, Chess::Rook)
+		else
+			board.move($1, $2, Chess::Queen)
+		end
+	else
+		board.move($1, $2)
+	end
+end

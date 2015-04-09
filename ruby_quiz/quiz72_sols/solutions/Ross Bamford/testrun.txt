@@ -1,0 +1,89 @@
+
+ 
+ ### 2 digits, [1,2,3] stops ### 
+      user     system      total        real
+seq.     0.010000   0.000000   0.010000 (  0.005639)
+Search space exhausted.
+Tested 100 of 100 codes in 300 keystrokes.
+39 codes were tested more than once.
+
+seq/chk  0.000000   0.000000   0.000000 (  0.008248)
+Search space exhausted.
+Tested 100 of 100 codes in 249 keystrokes.
+19 codes were tested more than once.
+
+simple   0.010000   0.000000   0.010000 (  0.005738)
+Search space exhausted.
+Tested 100 of 100 codes in 240 keystrokes.
+14 codes were tested more than once.
+
+best     0.050000   0.010000   0.060000 (  0.055791)
+Search space exhausted.
+Tested 100 of 100 codes in 226 keystrokes.
+6 codes were tested more than once.
+
+ 
+ ### 3 digits, [1,2,3] stops ### 
+      user     system      total        real
+seq.     0.080000   0.000000   0.080000 (  0.084109)
+Search space exhausted.
+Tested 1000 of 1000 codes in 4000 keystrokes.
+507 codes were tested more than once.
+
+seq/chk  0.070000   0.000000   0.070000 (  0.071199)
+Search space exhausted.
+Tested 1000 of 1000 codes in 2952 keystrokes.
+214 codes were tested more than once.
+
+simple   0.080000   0.000000   0.080000 (  0.090018)
+Search space exhausted.
+Tested 1000 of 1000 codes in 2972 keystrokes.
+235 codes were tested more than once.
+
+best     6.140000   0.040000   6.180000 (  6.231027)
+Search space exhausted.
+Tested 1000 of 1000 codes in 2618 keystrokes.
+51 codes were tested more than once.
+
+ 
+ ### 4 digits, [1,2,3] stops ### 
+      user     system      total        real
+seq.     1.000000   0.020000   1.020000 (  1.021674)
+Search space exhausted.
+Tested 10000 of 10000 codes in 50000 keystrokes.
+6146 codes were tested more than once.
+
+seq/chk  0.790000   0.000000   0.790000 (  0.804365)
+Search space exhausted.
+Tested 10000 of 10000 codes in 33395 keystrokes.
+2557 codes were tested more than once.
+
+simple   2.840000   0.040000   2.880000 (  2.930310)
+Search space exhausted.
+Tested 10000 of 10000 codes in 33830 keystrokes.
+2721 codes were tested more than once.
+
+best   665.050000   5.390000 670.440000 (678.840230)
+Search space exhausted.
+Tested 10000 of 10000 codes in 28687 keystrokes.
+464 codes were tested more than once.
+
+ 
+ ### 5 digits, [1,2,3] stops ### 
+      user     system      total        real
+seq.    19.250000   0.190000  19.440000 ( 19.886016)
+Search space exhausted.
+Tested 100000 of 100000 codes in 600000 keystrokes.
+69421 codes were tested more than once.
+
+seq/chk 11.990000   0.170000  12.160000 ( 12.259832)
+Search space exhausted.
+Tested 100000 of 100000 codes in 371178 keystrokes.
+30985 codes were tested more than once.
+
+simple 316.390000   5.580000 321.970000 (325.342727)
+Search space exhausted.
+Tested 100000 of 100000 codes in 372144 keystrokes.
+31125 codes were tested more than once.
+
+best     (not tested)

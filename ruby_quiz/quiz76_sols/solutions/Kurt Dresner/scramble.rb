@@ -1,0 +1,1 @@
+-pe 'gsub!(/\B\w+\B/){$&.split(//).sort_by{rand}.join}

@@ -1,0 +1,27 @@
+#!/usr/bin/env ruby
+
+require 'set'
+
+if ARGV.length != 2
+  puts "Usage: sample MEMBERS LIMIT"
+  exit
+end
+
+members = ARGV[0].to_f
+limit = ARGV[1].to_f
+raise "Bad parameters" if members > limit
+
+i = -1
+range = min_val = 0
+sub_limit = limit / members
+steps = (limit / sub_limit).ceil.to_i
+(0...steps).each do |step|
+  min_val = (sub_limit * step).floor
+  range = sub_limit
+  if i >= min_val
+    min_val = i + 1
+    range = sub_limit * step - i
+  end
+  i = (rand(1000.0 * range) / 1000.0 + min_val).floor
+  puts i
+end

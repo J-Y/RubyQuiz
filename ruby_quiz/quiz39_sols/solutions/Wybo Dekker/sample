@@ -1,0 +1,9 @@
+#!/usr/local/bin/ruby
+
+n, m, found = ARGV.shift.to_i, ARGV.shift.to_i, []
+(n+n*n/m).times do found.push(rand(m)) end 
+found.uniq!
+found.slice!(n..-1)
+found.sort!
+found.map! { |i| i.to_s }
+puts found.join("\n")

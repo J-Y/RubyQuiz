@@ -1,0 +1,1 @@
+YAML.add_builtin_type('map'){ |t,v| OpenStruct.new(v) }; o = YAML.load(s)

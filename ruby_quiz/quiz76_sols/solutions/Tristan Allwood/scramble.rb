@@ -1,0 +1,1 @@
+ruby -pe 'gsub(/[a-zA-Z]{3,}/){|z|z=z.split//;[z[0],z[1..-2].sort_by{rand},z[-1]]}' $*

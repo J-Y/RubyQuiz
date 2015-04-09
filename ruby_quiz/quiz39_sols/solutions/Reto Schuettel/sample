@@ -1,0 +1,26 @@
+#!/usr/bin/ruby
+
+def sample(members, max) 
+  results = []
+
+  0.upto(max -1) do |nr|
+    nrs_available = (max - nr)
+    nrs_needed    = (members - results.length)
+
+    # calculate the ratio between the needed members and the available nrs 
+    ratio = nrs_needed.to_f / nrs_available
+
+    if (ratio + rand) >= 1
+      results << nr 
+    end
+  end
+
+  return results
+end
+
+members = ARGV.shift.to_i
+max     = ARGV.shift.to_i 
+
+raise "MEMBERS must be smaller than MAX" unless members <= max
+
+puts sample(members, max)

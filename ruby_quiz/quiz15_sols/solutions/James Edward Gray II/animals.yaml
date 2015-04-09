@@ -1,0 +1,28 @@
+--- !ruby/object:AnimalTree 
+"no": !ruby/object:AnimalTree 
+  "no": !ruby/object:AnimalTree 
+    "no": 
+    question: an elephant
+    "yes": 
+  question: "Is it yellow?"
+  "yes": !ruby/object:AnimalTree 
+    "no": 
+    question: a lion
+    "yes": 
+question: "Is it a small animal?"
+"yes": !ruby/object:AnimalTree 
+  "no": !ruby/object:AnimalTree 
+    "no": !ruby/object:AnimalTree 
+      "no": 
+      question: a rabbit
+      "yes": 
+    question: "Does it have a long tail?"
+    "yes": !ruby/object:AnimalTree 
+      "no": 
+      question: a mouse
+      "yes": 
+  question: "Is it a kind of dog?"
+  "yes": !ruby/object:AnimalTree 
+    "no": 
+    question: a Shih Tzu
+    "yes": 

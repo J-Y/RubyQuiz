@@ -1,0 +1,82 @@
+#
+#
+#  @known   = string of characters; "-" is the wildcard
+#  @unknown = array of array of letters that letters
+#             that have been ruled out
+#  @file    = Dictionary File - one word per line
+#
+#
+
+require 'guesser'
+
+guess = Guesser.new(:known   => "------",
+                    :unknown => [[], [], [], [], [], []]
+                    :file    => "words.txt")
+
+guess.list.length # Total Words search from with six characters
+
+
+guess.guess       # Returns a guess of [letter, position]
+[:s, 5]           # position is based on an index of 0
+                  # I've found the best guess to be "s"
+                  # for the last character because it rules out
+                  # all plurals
+
+guess.list.length # The method "guess" created a list of words from the 
+11153             # database.
+                  # All the words are 6 characters in length.
+                  # Not necessary, just showing you how it filters down
+                  # the words
+
+guess.create_regex # Returns the Regexp used to find the word
+/^.{5}$/           # Not necessary, just for example purposes
+
+guess.unknown = [[], [], [], [], [], ["s"]] # Insert an "s" to signify
+                                            # that it is not
+                                            # in that position of the
+                                            # word.
+
+guess.guess       # Filters the words and guesses again
+[:e, 4]           #
+
+guess.list.length # Filtered by the method "guess" to have fewer words.
+7045              # Notice 4108 words did not have the last letter "s"
+
+guess.create_regex # Returns the Regexp used to find the list
+/^.{4}[^s]$/       #
+
+guess.unknown = [[], [], [], [], ["e"], ["s"]]
+
+guess.guess
+[:e, 5]
+
+guess.list.length # Guess filters out 2400 more words based on the
+                  # Regexp
+4568              # Note that the "list" is a filtering list and cannot
+                  # be recreated in full
+                  # once it has been filtered.  That was a conscious
+                  # decision to preserve resources.
+
+guess.create_regex # Not necessary, just shows for example purposes.
+/^.{4}[^e][^s]$/
+
+guess.known = "-----e".split(//) # Must be submitted as an array.
+                                 # Converts the string "-----e" into an 
+                                 # array
+                                 # Probably need to fix this in the
+                                 # class
+
+guess.guess
+[:l, 4]
+
+Eventually (16 guesses down the road), once the word is filtered down it would look something list this:
+
+guess.unknown = [["s", "t"], ["l", "o"], [], ["i", "a", "u", "o", "e", "n", "r"], ["e", "l", "i", "u"], ["s"]]
+
+guess.known = "---the".split(//)
+
+guess.create_regex
+/^[^st][^lo].{1}[t][h][e]$/
+
+guess.guess
+"writhe"

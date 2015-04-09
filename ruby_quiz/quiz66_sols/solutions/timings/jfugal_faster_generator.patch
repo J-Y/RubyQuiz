@@ -1,0 +1,11 @@
+--- jfugal_faster_generator_orig.rb     2006-02-14 15:09:58.000000000 +0000
++++ jfugal_faster_generator.rb  2006-02-14 14:07:17.000000000 +0000
+@@ -68,6 +68,7 @@
+       @block[self]
+       @mutex.synchronize{ @done = true }
+     }
++    Thread.pass until @thread.stop?
+     @thread.run if @thread.status and need_value?
+     Thread.pass while need_value?
+   end
+

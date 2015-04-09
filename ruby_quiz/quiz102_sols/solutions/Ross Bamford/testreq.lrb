@@ -1,0 +1,61 @@
+Just test that lrb_require works
+
+\begin{code}
+class TC_LRB < Test::Unit::TestCase
+  def meth_one
+    1
+  end
+end
+\end{code}
+
+\\begin{code} a red herring 
+
+\begin{code}
+class TC_LRB < Test::Unit::TestCase
+  def meth_two
+    2
+  end
+end
+\end{code}
+
+But we also need to make sure lrb_eval works too.
+
+\begin{code}
+require 'stringio'
+
+class TC_LRB < Test::Unit::TestCase
+  def meth_three
+    test_block_0
+    test_block_1
+    test_block_2
+  end
+
+  def test_block_0
+    $stdout = (s = StringIO.new)
+    lrb_eval(File.read('quiz.lrb'), 0)
+    assert_equal(
+      "The first line of literate Ruby you may have ever seen",
+      s.string.chomp)
+    $stdout = STDOUT
+  end
+  
+  def test_block_1
+    $stdout = (s = StringIO.new)
+    lrb_eval(File.read('quiz.lrb'), 1)
+    assert_equal( 
+      "And here, we have\nthe second and third lines of literate Ruby to be produced.",
+      s.string.chomp)
+    $stdout = STDOUT
+  end
+  
+  def test_block_2
+    $stdout = (s = StringIO.new)
+    lrb_eval(File.read('quiz.lrb'), 2)
+    assert_equal "Here's to hoping you enjoyed the quiz!", s.string.chomp
+    $stdout = STDOUT
+  end
+end
+\end{code}
+
+The End.
+

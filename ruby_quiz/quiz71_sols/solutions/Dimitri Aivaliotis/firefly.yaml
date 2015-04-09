@@ -1,0 +1,16 @@
+---
+galaxy: firefly
+player:
+  credits    : 1000
+  reputation : 100
+sectors:
+  - name     : 1
+    location : central
+    planets:
+      - name        : Ariel
+        description : "Planet.  Home to a major medical center, Saint Lucy's."
+  - name     : 2
+    location : central
+    planets:
+      - name        : Persephone
+        description : Planet.  Heavily stratified societal structure.  Resupply port for Serenity.

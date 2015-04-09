@@ -1,0 +1,200 @@
+#!/usr/bin/env ruby
+# Author::      Thomas Link (micathom AT gmail com)
+# Created::     2008-01-11.
+
+module Quiz152; end
+
+
+class Quiz152::Game
+   NAMES  = [2, 3, 4, 5, 6, 7, 8, 9, 10, 'J', 'Q', 'K', 'A']
+   VALUES = [1] * 6 + [0, 0] + [-1] * 5
+   SUITS  = ['c', 'd', 'h', 's']
+
+   def initialize(ui, time=2, cardn=2, decks=4, maxstep=10)
+       @ui      = ui.new(self)
+       @time    = time
+       @msgtime = 1
+       @cardn   = cardn
+       @maxstep = maxstep
+       cards    = NAMES.zip(VALUES)
+       @cards   = SUITS.inject([]) {|a, s| a += cards.map{|c| c.dup << s}} * decks
+       @decks   = decks
+       @count   = 4 - 4 * decks
+   end
+
+   def run
+       @ui.message "Decks: #@decks",
+           "Pause: #{@time}s",
+           "Cards at a time: 1-#@cardn",
+           "Ready? (Press ENTER)"
+       @ui.input
+       while deal(rand(@maxstep) + 1)
+           break unless query_count
+       end
+       @ui.message "Bye!"
+   end
+
+   def deal(n)
+       n.times do
+           @ui.deal_new
+           (1 + rand(@cardn)).times do |i|
+               cname, cvalue, csuit = @cards.delete_at(rand(@cards.size))
+               if cname
+                   @ui.deal_card(i, cname, csuit)
+                   @count += cvalue
+               else
+                   @ui.message('This is the end.')
+                   return false
+               end
+           end
+           @ui.deal_show
+           sleep @time
+       end
+       return true
+	end
+
+   def query_count
+       @ui.clear
+       @ui.message 'Your guess:'
+       count = @ui.input.chomp
+       if ['q', 'x', 'bye', 'exit', 'quit'].include?(count)
+           return false
+       else
+           case count.to_i
+           when 0
+               @ui.message "The current count is #@count."
+           when @count
+               @ui.message "Well."
+           else
+               @ui.message "It's always a pleasure playing with you. (count: #@count)"
+           end
+           sleep @msgtime
+           return true
+       end
+   end
+
+end
+
+
+class Quiz152::TextUI
+   def initialize(game)
+       @game = game
+       clear
+   end
+
+   def message(*text)
+       text.each {|t| puts t}
+   end
+
+   def input
+       STDIN.gets
+   end
+
+   def clear
+       100.times {puts "\n"}
+   end
+
+   def deal_card(nth, name, suit)
+       @output << [name]
+   end
+
+   def deal_new
+       @output = []
+       clear
+   end
+
+   def deal_show
+       @output.transpose.each do |lines|
+           puts lines.join('  ')
+       end
+       puts
+   end
+
+end
+
+
+class Quiz152::Figlet < Quiz152::TextUI
+   def initialize(*args)
+       super
+       @t_card = <<'CARD'
+__________________
+/                  \
+|                  |
+|                  |
+|                  |
+|                  |
+|                  |
+|                  |
+|                  |
+|                  |
+|                  |
+|                  |
+|                  |
+|                  |
+\__________________/
+CARD
+       @t_suit = {
+           'c' => <<'SUIT',
+   _
+ _/ \_
+/ \_/ \
+\_/^\_/
+  /_\
+SUIT
+           'd' => <<'SUIT',
+
+  /\
+ /  \
+ \  /
+  \/
+SUIT
+           'h' => <<'SUIT',
+ _  _
+/ \/ \
+\    /
+ \  /
+  \/
+SUIT
+           's' => <<'SUIT',
+  __
+ /  \
+|    |
+\_/\_/
+ /__\
+SUIT
+       }
+   end
+
+   def deal_card(nth, name, suit)
+       card = @t_card.dup.split("\n")
+       fill_card(card, @t_suit[suit], 3, 2)
+       fill_card(card, `figlet -k "#{name}"`, 8, 8)
+       @output << card
+   end
+
+   def fill_card(template, text, x0, y0)
+       text.each_with_index do |l, i|
+           template[i + y0][x0 .. (x0 + l.size - 2)] = l.chomp
+       end
+       template
+   end
+end
+
+
+if __FILE__ == $0
+   ui = Quiz152::TextUI
+   loop do
+       case ARGV[0]
+       when '-h', '--help'
+           puts "#$0 [TIME=2] [CARDS=2] [DECKS=4] [MAXSTEP=10]"
+           exit 1
+       when '-f', '--figlet'
+           ui = Quiz152::Figlet
+           ARGV.shift
+       else
+           break
+       end
+   end
+
+   Quiz152::Game.new(ui, *ARGV.map{|e| e.to_i}).run
+end

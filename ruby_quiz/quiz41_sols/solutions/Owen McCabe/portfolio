@@ -1,0 +1,153 @@
+require 'date'
+require 'open-uri'
+
+class PriceFetcher
+  PriceURL = "http://finance.yahoo.com/q?s="
+
+  def PriceFetcher.getPrice(ticker)
+    open(PriceURL + ticker) do |p|
+      #Last Trade:</td><td class="yfnc_tabledata1"><big><b>35.90</b>
+      p.read.scan(/(Last Trade:<\/td><td
+class="[a-z_0-9]*"><big><b>)([0-9]+.[0-9]+)<\/b>/)
+      return $2
+    end
+    return nil
+  end
+end
+
+class TablePrinter
+  def initialize(spacing, titles)
+    @spacing = spacing
+    @titles = titles
+  end
+
+  def printDivider
+    line = '+'
+    @spacing.each do |x|
+      line += '-'*x + '+'
+    end
+    puts line
+  end
+
+  def printHeader
+    printDivider
+    printDataRow_impl(@titles)
+    printDivider
+  end
+
+  def printDataRow(data)
+    printDataRow_impl(data)
+    printDivider
+  end
+
+  protected
+  def printDataRow_impl(data)
+    line, counter = '+', 0
+    @spacing.each do |x|
+      line += ' '
+      wordSize = 0
+      if(counter < data.size)
+        word = data[counter].to_s
+        wordSize = word.size
+        line += word
+      end
+      line += ' '*(x-wordSize-1) + '|'
+      counter += 1
+    end
+    puts line
+  end
+end
+
+class Portfolio
+  class Holding
+    def initialize(ticker, shares, cash)
+      @ticker = ticker.upcase
+      @price_per_share = PriceFetcher.getPrice(ticker)
+      @datetime = DateTime.now
+
+      @shares = shares
+      if(!@shares) then @shares = (cash.to_f/@price_per_share.to_f).floor end
+    end
+    attr_reader :shares, :price_per_share, :ticker, :datetime
+
+    def to_s
+      return "#{@shares} shares of #{@ticker} for
+#{@shares.to_f*@price_per_share.to_f}"
+    end
+
+    def calculateProfit
+      return shares.to_f*PriceFetcher.getPrice(ticker).to_f -
+shares.to_f*price_per_share.to_f
+    end
+  end
+
+  def initialize
+    @holdings = []
+  end
+
+  def getCurrentPrice(ticker)
+    return PriceFetcher.getPrice(ticker)
+  end
+
+  def addShares(ticker, shares)
+    @holdings.push(Holding.new(ticker, shares, nil))
+    @holdings.last
+  end
+
+  def addDollars(ticker, dollars)
+    @holdings.push(Holding.new(ticker, nil, dollars))
+    @holdings.last
+  end
+
+  def printHoldings
+    spacing = [10, 10, 12, 20, 15, 20]
+    titles = ['Symbol', 'Shares', 'Buy Price', 'Buy Date', 'Value',
+'Profit to date']
+    tp = TablePrinter.new(spacing, titles)
+    tp.printHeader
+    @holdings.each do |h|
+      tp.printDataRow([h.ticker, h.shares, h.price_per_share,
+h.datetime.strftime('%m/%d/%Y %H:%M'),
+                        h.shares.to_f*h.price_per_share.to_f,
+h.calculateProfit])
+    end
+  end
+end
+
+
+puts "Welcome to Stock Trader v0.0001"
+puts "Type quit when you're finished"
+SerialFileName = "portfolio.serial"
+port = Portfolio.new
+
+begin
+  File.open(SerialFileName) do |f|
+    port = Marshal.load(f)
+
+    puts "Current Holdings:"
+    port.printHoldings
+  end
+rescue
+  puts "No Saved data found, creating new portfolio..."
+end
+
+while true do
+  printf "Buy (symbol shares/dollars):"
+  input = gets.chomp
+  if(input == "quit")
+    break
+  elsif(input =~ /([a-zA-Z]*) (\$?[0-9.]+)/)
+    holding = 0
+    if($2[0,1] == '$') then holding = port.addDollars($1, $2[1, $2.size-1])
+    else holding = port.addShares($1, $2)
+    end
+    if holding then puts "You purchased #{holding.to_s}" end
+  end
+end
+
+port.printHoldings
+
+File.open(SerialFileName, "w+") do |f|
+  Marshal.dump(port, f)
+end
+

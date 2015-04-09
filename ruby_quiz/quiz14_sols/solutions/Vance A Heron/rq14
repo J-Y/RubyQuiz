@@ -1,0 +1,54 @@
+#! /bin/env ruby 
+
+s = ' '  # space
+u = '-'  # underline
+p = '|'  # pipe
+
+# use 15 pseudo segments per digit 
+cmap = [
+ [ s, u, s, p, s, p, s, s, s, p, s, p, s, u, s ], # 0
+ [ s, s, s, s, s, p, s, s, s, s, s, p, s, s, s ], # 1
+ [ s, u, s, s, s, p, s, u, s, p, s, s, s, u, s ], # 2
+ [ s, u, s, s, s, p, s, u, s, s, s, p, s, u, s ], # 3
+ [ s, s, s, p, s, p, s, u, s, s, s, p, s, s, s ], # 4
+ [ s, u, s, p, s, s, s, u, s, s, s, p, s, u, s ], # 5
+ [ s, u, s, p, s, s, s, u, s, p, s, p, s, u, s ], # 6
+ [ s, u, s, s, s, p, s, s, s, s, s, p, s, s, s ], # 7
+ [ s, u, s, p, s, p, s, u, s, p, s, p, s, u, s ], # 8
+ [ s, u, s, p, s, p, s, u, s, s, s, p, s, u, s ], # 9
+]
+
+#process args
+sz = 2 
+if ARGV[0] == '-s'
+  ARGV.shift
+  sz = ARGV.shift.to_i 
+end
+sz = 2 if sz < 1 || sz > 10  # sanity check
+
+unless ARGV.length > 0
+  puts "Usage: $0 [-s <siz>] <number>"
+  exit
+end
+
+#select digits from input string ...
+digits = ARGV[0].split(//).find_all{|c| ('0'..'9').include?(c)}
+
+# grid bounds
+maxx = (3 + sz) * digits.length - 1
+maxy = 2 + sz * 2 
+
+(0..maxy).each {|y|
+  ro = 6 * (y/(sz+1)) + (y%(sz+1) == 0 ? 0 : 3) # row offset
+  (0..maxx).each {|x|
+    dndx = x/(3+sz)             # which digit in string
+    t = x%(3+sz)                # tmp value
+    cndx = ro                   # index into cmap t == 0
+    cndx = ro + 1 if t > 0      # t in  1..sz
+    cndx = ro + 2 if t == 1+sz  # last column of digit 
+    cndx = 0  if t == 2+sz      # spc btwn nums 1st psuedo seg  always ' ' 
+    
+    print cmap[digits[dndx].to_i][cndx]    # char at x,y coord
+  } 
+  print "\n"                    # next row
+}

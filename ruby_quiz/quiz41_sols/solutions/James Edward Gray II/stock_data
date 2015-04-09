@@ -1,0 +1,15 @@
+#!/usr/local/bin/ruby -w
+
+# Stock data via:  http://www.gummy-stuff.org/Yahoo-data.htm
+
+require "open-uri"
+
+# parse options and symbols requested
+data, stocks = ARGV.partition { |e| e[0] == ?- }
+data         = data.map { |tag| tag[/\w+/] }.join
+stocks       = stocks.join("+")
+
+# fetch and print data
+open "http://finance.yahoo.com/d/quotes.csv?s=#{stocks}&f=#{data}" do |csv|
+	csv.each { |line| puts line }
+end

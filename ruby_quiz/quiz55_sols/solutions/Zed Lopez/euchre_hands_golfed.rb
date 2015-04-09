@@ -1,0 +1,1 @@
+a=[];6.times{a<<gets.strip};puts t=a.shift;o=Hash[*%w{C S S C H D D H}];t=t[0,1];s=a.map{|c|c[1,1].upcase}.uniq;i=s.index(t)and s.push(s.slice!(i));s.length>2&&o[s[-1]]==s[-2]&&(s[-3],s[-2]=s[-2],s[-3]);puts a.sort_by{|c|r,z=c.upcase.split('');r=='J'&&t==z&&50||r=='J'&&o[z]==t&&40||'9TJQKA'.index(r)+s.index(z)*9}.reverse

@@ -1,0 +1,1 @@
+puts gets.gsub(/\B[a-z]+\B/i){|s|l=s.length;l.times{|i|r=rand(l);s[i],s[r]=s[r],s[i]};s}

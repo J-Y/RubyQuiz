@@ -1,0 +1,51 @@
+#!/usr/local/bin/ruby
+
+if $DEBUG
+    def ptime(evt)
+        $ptimeg ||= Time.now.to_f
+        STDERR.puts "#{evt} at #{Time.now.to_f - $ptimeg}"
+    end
+else
+    def ptime(evt)
+        # noop
+    end
+end
+
+# the actuall sampling, just store the seen values in a hash and return the
+# sorted hash keys
+def sample(cnt, lim)
+    x = {}
+    tmp = nil
+
+    for i in 0...cnt
+        while x.has_key?(tmp = rand(lim))
+        end
+        x[tmp] = true
+    end
+    ptime "rand"
+
+    x = x.keys.sort
+    ptime "sort"
+    x
+end
+
+# this is the key to success, but needs lots of ram
+GC.disable
+
+ptime "start"
+
+x = sample(cnt=ARGV[0].to_i, ARGV[1].to_i)
+
+# creating the newline string only once saves 5s
+nl = "\n"
+i = 0
+while i+10 <= cnt
+    # this is saves about 1s
+    print x[i], nl, x[i+1], nl, x[i+2], nl, x[i+3], nl, x[i+4],
+    nl, x[i+5], nl, x[i+6], nl, x[i+7], nl, x[i+8], nl, x[i+9], nl
+    i += 10
+end
+for j in i...cnt
+    print x[j], nl
+end
+ptime "print"

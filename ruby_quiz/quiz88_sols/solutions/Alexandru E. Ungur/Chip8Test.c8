@@ -1,0 +1,21 @@
+# .CODE
+mov  :V1, 0x77
+mov  :V2, 0x45
+inc  :V1, 0x01
+movr :V3, :V2
+_or  :V1, :V2
+_and :V1, :V2
+_xor :V2, :V3
+sum  :V1, :V3
+sub  :V2, :V3
+shr  :V1, :V0
+subr :V3, :V2
+shl  :V3, :V0
+mov  :V4, 0xFF
+rndc :V4, 0x11
+sec  :V2, 0xBB
+jmp 0         
+ret           
+# .COMPILER
+dump
+store

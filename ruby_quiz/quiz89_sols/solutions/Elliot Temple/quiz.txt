@@ -1,0 +1,15 @@
+by elliot temple
+
+sometimes i type in all or mostly lowercase. a friend of mine says it's hard to read essays with no capital letters. so the problem is to write a method which takes a string (which could include many paragraphs), and capitalizes words that should be capitalized. at minimum it should do the starts of sentences.
+
+solutions could range from simple (a few regexes) to complex (lots of special cases are possible, like abbreviations that use a period). an addition would be using a dictionary to find proper nouns and capitalize those. it could also ask the user about cases the program can't figure out. or log them.
+
+i can provide an example solution (regex based) and a list of reasons it doesn't work very well, if you want.
+
+sample input:
+
+- this email itself works nicely
+
+- this one is hard. sometimes i might want to write about gsub vs. gsub! without the "." or "!" causing any capitalization (or the punctuation in quotes).
+
+one problem is maybe dealing with sentences that contain periods is too hard. i don't know.

@@ -1,0 +1,1 @@
+ruby -npae 'gsub!(/\b(\w)(\w{2,})(\w)\b/){_=$3;[$1,$2.split(//).sort_by{rand},_]}'

@@ -1,0 +1,22 @@
+<%= start_form_tag :action => "login" %>
+
+<h3>Please login</h3>
+
+<p>Are you new?  If so, <%= link_to "sign-up now", :action => :signup %>.</p>
+
+<dl>
+	<dt><label for="person_email">Email:</label></dt>
+	<dd><%= text_field "person", "email", "size" => 30 %></dd>
+
+	<dt><label for="person_password">Password:</label></dt>
+	<dd><%= password_field "person", "password", "size" => 30 %></dd>
+
+	<% if @flash[:first_login] %>
+		<dt><label for="person_confirmation">Confirmation:</label></dt>
+		<dd><%= text_field "person", "confirmation", "size" => 6 %></dd>
+	<% end %>
+</dl>
+
+<p><%= submit_tag "Login" %></p>
+
+<%= end_form_tag %>

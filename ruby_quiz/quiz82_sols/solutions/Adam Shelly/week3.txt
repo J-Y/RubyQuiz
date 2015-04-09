@@ -1,0 +1,8 @@
+run 90
+walk 90
+run 180
+walk 180
+run 90
+walk 90
+run 180
+walk 180

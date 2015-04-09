@@ -1,0 +1,1 @@
+1.upto(100) {|i| m3 = i%3 == 0; m5 = i%5 == 0; x = if m3 && m5; "FizzBuzz"; elsif m3; "Fizz"; elsif m5; "Buzz"; else i; end; print "#{x} " }

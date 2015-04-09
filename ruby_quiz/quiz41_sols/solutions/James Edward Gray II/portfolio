@@ -1,0 +1,94 @@
+#!/usr/local/bin/ruby
+
+require "yaml"
+require "soap/rpc/driver"
+
+server = SOAP::RPC::Driver.new( "http://services.xmethods.com/soap",
+                                "urn:xmethods-delayed-quotes" )
+server.add_method( "getQuote", "symbol" )
+
+Struct.new("Shares", :symbol, :shares, :price, :date)
+
+file_name = File.join(ENV["HOME"], ".portfolio.yaml")
+portfolio = if File.exist? file_name
+	File.open(file_name) { |file| YAML.load(file) }
+else
+	Hash.new
+end
+
+if portfolio.empty? or (not ARGV.empty? and ARGV.first == "-p")
+	loop do
+		print "Buy (symbol shares/dollars):  "
+		line = $stdin.gets.strip
+		break if line.empty?
+		
+		ticker, amount = line.split
+		price = server.getQuote(ticker)
+		if price <= 0
+			puts "Unable to fetch a price for that ticker symbol."
+			next
+		end
+
+		if amount =~ /^\$(\d+)$/
+			dollars = Integer($1)
+			shares  = (dollars / price).to_i
+		elsif amount =~ /^[1-9]\d*$/
+			shares  = Integer(amount)
+		else
+			puts "Unknown amount format."
+			next
+		end
+
+		if shares.zero?
+			puts "You can't purchase any shares for that amount."
+			next
+		else
+			date = Time.now.strftime("%m/%d/%y %H:%M")
+			buy  = Struct::Shares.new(ticker, shares, price, date)
+			portfolio[buy.symbol] = buy
+
+			puts "You purchased #{buy.shares} shares of #{buy.symbol} " +
+			     "for $#{"%.2f" % (buy.shares * price)}."
+		end
+	end
+	
+	File.open(file_name, "w") { |file| YAML.dump(portfolio, file) }
+end
+
+output = [%w{Symbol Shares Buy\ Price Buy\ Date Current\ Price Gain/Loss}]
+portfolio.each do |ticker, details|
+	current = server.getQuote(ticker)
+	output << [ ticker, details.shares, details.price, details.date, current,
+	            details.shares * current - details.shares * details.price ]
+end
+
+widths = Array.new(output.first.size, 0)
+output.each do |row|
+	row.each_index do |index|
+		width         = if row[index].is_a? Float
+			("%.2f" % row[index]).length + 1
+		else
+			row[index].to_s.length
+		end
+		widths[index] = width if width > widths[index]
+	end
+end
+
+border   = "+-" + widths.map { |width| "-" * width }.join("-+-") + "-+"
+template = ("| " + output.last.map do |column|
+	case column
+	when Float
+		"$%#{widths.shift - 1}.2f"
+	when Integer
+		"%#{widths.shift}d"
+	else
+		"%#{widths.shift}s"
+	end
+end.join(" | ") + " |").sub(/\A\| %/, "| %-")
+puts border
+puts template.gsub(/ \| \$?%(\d+)(?:\.\d+)?[sdf]/, " | %\\1s") % output.first
+output[1..-1].sort.each do |row|
+	puts border
+	puts template % row
+end
+puts border

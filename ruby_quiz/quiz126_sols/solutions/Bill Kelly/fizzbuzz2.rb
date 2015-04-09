@@ -1,0 +1,1 @@
+1.upto(100) {|i| m3 = i%3 == 0; m5 = i%5 == 0; x=""; x<<"Fizz" if m3; x<<"Buzz" if m5; x=i unless m3||m5; print "#{x} "}

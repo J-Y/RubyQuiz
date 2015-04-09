@@ -1,0 +1,8 @@
+Visa:             { starts: [ '4' ],
+                   sizes: [ 16, 13 ] }
+MasterCard:       { starts: [ '51', '52', '52', '54', '55' ],
+                   sizes: [ 16 ] }
+Discover:         { starts: [ '6011' ],
+                   sizes: [ 16 ] }
+American Express: { starts: [ '34', '37' ],
+                   sizes: [ 15 ] }

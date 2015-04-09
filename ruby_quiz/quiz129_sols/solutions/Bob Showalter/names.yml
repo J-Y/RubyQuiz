@@ -1,0 +1,12 @@
+# sample data file for name_picker.rb
+
+James Edward Gray:
+  org: Ruby Quiz
+
+Why the Lucky Stiff:
+  nick: _why
+
+Yukihiro Matsumoto:
+  nick: matz
+  role: Creator of Ruby Language
+  org: "http://www.ruby-lang.org"

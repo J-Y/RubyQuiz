@@ -1,0 +1,140 @@
+Replace Conditional with Polymorphism
+=====================================
+
+This is a traditional refactoring pattern located on page 255 of my copy of the book this quiz is named after.  It can also be found on the [Refactoring Catalog site](http://www.refactoring.com/catalog/replaceConditionalWithPolymorphism.html).
+
+Smelly Code
+===========
+
+This is actual code from a Rails application we are building at work.  I noticed the problematic method when bug hunting in the system the same day I had been reading in Refactoring.  (This method is not related to the bug I was after, it works fine.)
+
+Here are the relevant pieces of the three classes involved:
+
+    class TimePeriod < ActiveRecord::Base
+      #------------------
+      # VALIDATIONS
+      #------------------
+      validates_presence_of :name, :start_date, :end_date
+      
+      #------------------
+      # INSTANCE METHODS
+      #------------------
+      # 
+      # Returns +true+ if the passed +date+ is in the TimePeriod, but not in any
+      # attached closed day ranges.
+      # 
+      def include?( date )
+        case self
+        when ClosedPeriod
+          (start_date..end_date).include?(date)
+        else
+          (start_date..end_date).include?(date) and
+          not closed_periods.any? { |closed| closed.include?(date) }
+        end
+      end
+    end
+
+    class SchedulePeriod < TimePeriod
+      #------------------
+      # ASSOCIATIONS
+      #------------------
+      has_many :closed_periods, :dependent => :destroy
+    end
+
+    class ClosedPeriod < TimePeriod
+    
+    end
+
+These classes are used to represent simple time spans in our application.  A SchedulePeriod might represent a semester at a university, for example, which could have a related ClosedPeriod for Spring Break.  (These are stored in the database in the time_periods table, making use of ActiveRecord's Single Table Inheritance.)
+
+What's Wrong Here and Why "Fix" It?
+===================================
+
+Obviously, the method I intend to refactor is the only one shown TimePeriod#include?.  This method displays the code smell of a case statement used to determine action based on object types.  Message dispatch like this is Ruby's domain and not suited for case statements.  I will use Replace Conditional with Polymorphism to eliminate this.
+
+It might be interesting to note that this method got to the current state through a very natural process of code decay.  When the database was first being established, we threw together a quick TimePeriod class that looked something like:
+
+    class TimePeriod < ActiveRecord::Base
+      #------------------
+      # ASSOCIATIONS
+      #------------------
+      has_many :closed_periods, :class_name  => "TimePeriod",
+                                :foriegn_key => "closed_period_id",
+                                :dependent   => :destroy
+      
+      #------------------
+      # VALIDATIONS
+      #------------------
+      validates_presence_of :name, :start_date, :end_date
+      
+      #------------------
+      # INSTANCE METHODS
+      #------------------
+      # 
+      # Returns +true+ if the passed +date+ is in the TimePeriod, but not in any
+      # attached closed day ranges.
+      # 
+      def include?( date )
+        (start_date..end_date).include?(date) and
+        not closed_periods.any? { |closed| closed.include?(date) }
+      end
+    end
+
+This is the same thing, but tracked using only one object that can have "closed_periods" of its own type.  This worked just like the current version does.  However, when we began working through the controllers to create, find, and relate these objects, it became apparent that it would be easier on us programmers to keep everything straight if we broke them down into separate objects.  Thus the change and the introduction of the smelly method.
+
+Refactored Code
+===============
+
+Looking at the refactoring check list, I see that I first need to cover the method with tests to ensure that I won't break anything.  Luckily, these were already in place for the code.  Here is one such test, just to give you an idea of how they look:
+
+    spring_break = TimePeriod.find_by_name("Spring Break")
+    current = Date.civil(2006, 3, 1)
+    loop do
+      # all days in March should validate, except for Spring Break
+      assert_equal( !spring_break.include?(current),
+                    time_periods(:march).include?(current) )
+  
+      current += 1
+      break if current.month == 4
+    end
+
+Now according to the refactoring catalog, I need to do two things.  The first is:  "Move each leg of the conditional to an overriding method in a subclass."  That doesn't sound too tough.  Here's the first such move:
+
+    class ClosedPeriod < TimePeriod
+      #------------------
+      # INSTANCE METHODS
+      #------------------
+      # Returns +true+ if the passed +date+ is in the ClosedPeriod.
+      def include?( date )
+        (start_date..end_date).include?(date)
+      end
+    end
+
+I ran the tests and nothing broke.  I'm now ready to move the second leg:
+
+    class SchedulePeriod < TimePeriod
+      #------------------
+      # ASSOCIATIONS
+      #------------------
+      has_many :closed_periods, :dependent => :destroy
+      
+      #------------------
+      # INSTANCE METHODS
+      #------------------
+      # 
+      # Returns +true+ if the passed +date+ is in the SchedulePeriod, but not in
+      # any attached closed day ranges.
+      # 
+      def include?( date )
+        (start_date..end_date).include?(date) and
+        not closed_periods.any? { |closed| closed.include?(date) }
+      end
+    end
+
+Again the tests gave the green light.  All is good.
+
+The second piece to this refactoring is to:  "Make the original method abstract."  I considered that for a brief instance, mentally translating the Javaism into Ruby.  My decision made, I highlighted TimePeriod#include? and tapped the delete key on my keyboard.  I briefly considered having it raise an exception, but Ruby is going to do that for me anyway and this was less work.
+
+The tests still pass.  Refactoring complete.
+
+You may want to do another refactoring to move the duplicated date range test (`(start_date..end_date).include?(date)`) out of the two methods, but that's a different pattern and probably not too critical in this example.

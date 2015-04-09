@@ -1,0 +1,53 @@
+= xoxo.rb, a XOXO parser and generator for Ruby
+
+== What is xoxo.rb?
+
+xoxo.rb is a Ruby library for loading and dumping data as
+XOXO[http://microformats.org/wiki/xoxo], an simple, open outline
+format written in standard XHTML and suitable for embedding in
+(X)HTML, Atom, RSS, and arbitrary XML.
+
+xoxo.rb is a straight port of the functionality of
+xoxo.py[http://microformats.org/wiki/xoxo-sample-code#Python], but
+with an API more similar to Marshal and YAML.
+
+
+== Current limitations
+
+* No special support for encodings other than UTF-8.  Especially note
+  that <tt>http-equiv</tt> headers are not respected.
+
+* XOXO.dump only can dump these Ruby core classes:
+  * String
+  * Array
+  * Hashes that have string (+to_s+) keys
+  Other objects will be flattened with +to_s+.
+
+
+== Contact
+
+Please mail bugs, suggestions and patches to
+<mailto:chneukirchen@gmail.com>.
+
+Darcs repository ("darcs send" is welcome for patches):
+http://chneukirchen.org/repos/xoxo-rb
+
+
+== History
+
+January 29, 2006:: First public release 0.1, written for the
+                   {Ruby Quiz #64}[http://rubyquiz.com/quiz64.html].
+
+
+== Copyright
+
+Copyright (C) 2006  Christian Neukirchen <http://purl.org/net/chneukirchen>
+
+This work is licensed under the same terms as Ruby itself.
+
+This work is indirectly based on xoxo.py, written by Kevin Marks
+<mailto:kmarks@technorati.com>.
+
+Please mail bugs, feature requests or patches to the mail addresses
+found above or use IRC[irc://freenode.net/#ruby-lang] to contact the
+developer.

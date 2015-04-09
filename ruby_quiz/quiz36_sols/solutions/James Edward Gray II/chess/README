@@ -1,0 +1,34 @@
+= Ruby Quiz Chess Library
+
+This library is meant to provide those interested in playing with Ruby Quiz chess problems a jumping off point that will hopefully save them some repetitive work.
+
+This library is organized in a standard Ruby project layout.  Here's the dime tour:
+
+bin/::   Home of any and all chess games I've made using this library.
+doc/::   Created by RDoc on request to hold the documentation for this library.
+lib/::   The source files for the Ruby Quiz Chess Library.
+test/::  My unit tests, used in the creation of this library.
+
+The easiest way to play with this library is to use Rake.  If you have Rake installed, you can enter simple commands in the root directory of this project for the following tasks:
+
+rake play::        Play Ruby Quiz Chess.
+rake play_hole::   Play Ruby Quiz Blackhole Chess.
+rake play_fairy::  Play Ruby Quiz Fairy Chess.
+rake play_fib::    Play Ruby Quiz Fibonacci Chess.
+rake play_gun::    Play Ruby Quiz Gun Chess.
+rake rdoc::        Build library documentation.
+rake test::        Run the unit tests.
+
+You can still do all of these things without rake, the commands just get longer:
+
+ruby -Ibin:lib bin/chess::                                                                      Play Ruby Quiz Chess.
+ruby -Ibin:lib bin/blackhole_chess::                                                            Play Ruby Quiz Blackhole Chess.
+ruby -Ibin:lib bin/fairy_chess::                                                                Play Ruby Quiz Fairy Chess.
+ruby -Ibin:lib bin/fibonacci_chess::                                                            Play Ruby Quiz Fibonacci Chess.
+ruby -Ibin:lib bin/gun_chess::                                                                  Play Ruby Quiz Gun Chess.
+rdoc -o doc/html --main 'README' --title 'Chess Library Documentation' -T 'html' README lib/::  Build library documentation.
+ruby -Itest:lib test/ts_all.rb::                                                                Run the unit tests.
+
+You are invited to use this library in any way you see fit.  You may modify the code, redistribute it, or whatever.  I hope it proves useful.
+
+If you have any questions, you may email the author, {James Edward Gray II}[mailto:james@grayproductions.net].

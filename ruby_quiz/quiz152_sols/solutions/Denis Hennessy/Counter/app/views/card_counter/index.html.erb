@@ -1,0 +1,15 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <%= javascript_include_tag :defaults %>
+  <title>Practice Card Counting</title>
+</head>
+<body>
+    <% form_tag :action => 'practice' do %>
+        Number of Decks in Shoe: <%= text_field_tag :decks, '1' %><br/>
+        Deal between <%= text_field_tag :min, '1', :size => 1%> and <%= text_field_tag :max, '3', :size => 1 %> cards per hand.<br/>
+        Deal cards every <%= text_field_tag :delay, '5', :size => 1%> seconds.<br/>
+        <%= submit_tag("Start") %>
+    <% end %>
+</body>
+</html>

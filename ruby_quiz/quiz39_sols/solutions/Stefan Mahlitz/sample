@@ -1,0 +1,122 @@
+#!/usr/local/bin/ruby
+
+# ruby quiz #39
+#
+# The challenge is to implement a program called "sample" that takes exactly two
+# integer inputs.  The first of those should be the number of members you would
+# like included in the sample.  The second is the upper boundary (exclusive) of
+# the range of integers members can be selected from.  The lower boundary is zero
+# (inclusive).
+#
+# Your program should output exactly the requested number of members from the
+# defined range to STDOUT, one number per line.  Each member must be unique and
+# they should appear in sorted order.
+
+require 'benchmark'
+include Benchmark
+
+class Sampler
+  def initialize(count, limit)
+    @count, @limit = count, limit
+    if @count > @limit
+      raise(ArgumentError, "Can not generate unique numbers if count is bigger than limit.") 
+    end
+    @numbers = []
+    @numberHash = {}
+  end
+
+  # generates @count random numbers
+  #
+  # after first generation looks whether uniq! deleted some numbers
+  #
+  # enters loop where each new iteration calls uniq!
+  def generate_with_uniq_first
+    @numbers.clear
+    @count.times do
+      @numbers << rand(@limit)
+    end
+
+    @numbers.uniq!
+    # there is a chance, that there are no unique number in
+    # @numbers, let's see whether our array contains @count elements
+
+    while @numbers.length < @count
+      # bad luck, there have been duplicate numbers
+      # try adding a new number and look again
+      @numbers << rand(@limit)
+      @numbers.uniq!
+    end
+  end
+
+  # generates @count random numbers
+  #
+  # generates missing count of numbers at once and calls
+  # uniq! to eliminate duplicates
+  def generate_with_uniq_second
+    @numbers.clear
+    while @numbers.length < @count
+      # generate missing numbers
+      (@count - @numbers.length).times do
+        @numbers << rand(@limit)
+      end
+      @numbers.uniq!
+    end
+  end
+
+  # generates @count random numbers
+  # checks for each whether it is already included in array
+  def generate_with_array_include
+    @numbers.clear
+    @count.times do
+      newNumber = rand(@limit)
+      if @numbers.include?(newNumber)
+        redo
+      else
+        @numbers << newNumber
+      end
+    end
+  end
+
+  # generates @count random numbers
+  # checks for each whether it is already included in hash (thanks Dominik Bathon)
+  def generate_with_hash_has_key
+    @numberHash.clear
+    @count.times do
+      newNumber = rand(@limit)
+      if @numberHash.has_key?(newNumber)
+        redo
+      else
+        @numberHash[newNumber] = nil
+      end
+    end
+    @numbers = @numberHash.keys
+  end
+
+  # Hash gives you uniq! for free, just fill the Hash until its length
+  # reaches the @count (thanks Joost Diepenmaat)
+  def generate_with_hash_length
+    @numberHash.clear
+    while @numberHash.length < @count
+      @numberHash[rand(@limit)] = nil
+    end
+    @numbers = @numberHash.keys
+  end
+
+  # benchmarks every method that contains "generate_"
+  def benchmark_generate
+    generateMethods = self.methods.grep(/generate_/).sort
+    bmbm(0) do |bench|
+      generateMethods.each {|aMethodName|
+        bench.report(aMethodName) {instance_eval(aMethodName)}
+      }
+    end
+  end
+
+  # output sorted
+  def to_s
+    @numbers.sort.join("\n")
+  end
+end
+
+sampler = Sampler.new(ARGV[0].to_i, ARGV[1].to_i)
+sampler.benchmark_generate

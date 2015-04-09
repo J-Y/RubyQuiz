@@ -1,0 +1,1 @@
+R='AKQJT9';S='shcd';i=$<.read.split;t=i.shift;x=S.index(t[0,1].downcase);r="J#{S[x,1]}";l="J#{S[x-2,1]}";puts(t,i.sort_by{|c|c==r ?-2:c==l ?-1:R.index(c[0,1])+10*((S.index(c[1,1])-x)%4)})

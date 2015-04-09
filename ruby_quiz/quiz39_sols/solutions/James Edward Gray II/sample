@@ -1,0 +1,30 @@
+#!/usr/local/bin/ruby
+
+usage = <<END_USAGE
+Usage:  #{File.basename(__FILE__)} MEMBERS LIMIT
+
+MEMBERS:  The number of members you want in the sample.  (Integer)
+  LIMIT:  The upper limit for the sample range.  All     (Integer)
+          members will between 0 and LIMIT - 1.
+
+Note that MEMBERS must be less than LIMIT.
+END_USAGE
+
+unless ARGV.size == 2 and ARGV.all? { |num| num =~ /^[\d_]+$/ }
+	puts usage
+	exit
+end
+
+members, limit = ARGV.map { |num| Integer(num) }
+
+unless members < limit
+	puts usage
+	exit
+end
+
+0.upto(limit - 1) do |num|
+	if rand(limit) % (limit - num) < members
+		puts num
+		members -= 1
+	end 
+end
